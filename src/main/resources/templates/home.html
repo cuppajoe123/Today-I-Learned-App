@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
   <head>
     <meta charset="UTF-8">
     <title>Today I Learned</title>
   </head>
   <body>
-    Foobar
+    <h1>Today I Learned</h1>
+    
+    <div class="submissions">
+      <div th:each="submission : ${submissions}">
+        <span th:text="${submission.title}"></span><br/>
+        <span th:text="${submission.body}"></span><br/><br/>
+      </div>
+    </div>
+
   </body>
 </html>
