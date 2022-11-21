@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Today I Learned</title>
+  </head>
+  <body>
+    <h1>Submit</h1>
+    
+    <form method="POST" th:action="@{/submit}" id="submissionForm">
+      
+      <label for="title">Title: </label>
+      <input type="text" name="title"><br/>
+      
+      <label for="body">Content: </label>
+      <input type="text" name="body">
+      
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>
