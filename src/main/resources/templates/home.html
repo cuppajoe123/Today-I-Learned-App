@@ -11,8 +11,9 @@
     
     <div class="submissions">
       <div th:each="submission : ${submissions}">
-        <span th:text="${submission.title}"></span><br/>
-        <span th:text="${submission.body}"></span><br/><br/>
+        <div th:text="${submission.title}"></div>
+        <div th:text="${submission.body}"></div>
+        <div th:text="${submission.author.username}"></div><br/>
       </div>
     </div>
 
