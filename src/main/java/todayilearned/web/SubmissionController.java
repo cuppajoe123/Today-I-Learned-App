@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/")
-@Slf4j
+@RequestMapping("/submit")
 public class SubmissionController {
 
     private SubmissionRepository submissionRepo;
@@ -26,34 +25,16 @@ public class SubmissionController {
         this.submissionRepo = submissionRepo;
     }
 
-    @GetMapping
-    public String homePage() {
-        Iterable<Submission> submissions = submissionRepo.findAll();
-        for (Submission submission : submissions) {
-            log.info("Submission: {}", submission);
-            System.out.println(submission);
-        }
-        return "home";
-    }
-
-    @GetMapping("/submit")
+    @GetMapping("/")
     public String submissionForm() {
         return "submissionForm";
     }
 
-    @PostMapping("/submit")
+    @PostMapping("/")
     public String processSubmission(Submission submission, @AuthenticationPrincipal User author) {
         submission.setAuthor(author);
         submissionRepo.save(submission);
         return "redirect:/";
-    }
-
-    @ModelAttribute(name = "submissions")
-    public List<Submission> addSubmissionsToModel(Model model) {
-        List<Submission> submissions = new ArrayList<>();
-        submissionRepo.findAll().forEach(i -> submissions.add(i));
-        return submissions;
-
     }
 
 
