@@ -5,15 +5,16 @@
   <head>
     <meta charset="UTF-8">
     <title>Today I Learned</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
   </head>
   <body>
     <h1>Today I Learned</h1>
     
     <div class="submissions">
-      <div th:each="submission : ${submissions}">
+      <div class="submission" th:each="submission : ${submissions}">
         <div th:text="${submission.title}"></div>
         <div th:text="${submission.body}"></div>
-        <div th:text="${submission.author.username}"></div><br/>
+        <div>By <span th:text="${submission.author.username}"></span></div>
       </div>
     </div>
 
