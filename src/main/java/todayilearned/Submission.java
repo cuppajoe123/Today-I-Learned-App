@@ -30,4 +30,11 @@ public class Submission implements Serializable {
     @NotBlank(message = "A body is required")
     private String body;
 
+    public Submission(User author, Date postedOn, String title, String body) {
+        this.author = author;
+        this.postedOn = postedOn;
+        this.title = title;
+        this.body = body;
+    }
+
 }

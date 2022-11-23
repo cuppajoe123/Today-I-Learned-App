@@ -8,17 +8,12 @@
     <link rel="stylesheet" th:href="@{/style.css}">
   </head>
   <body>
-    <h1>Today I Learned</h1>
-    
-    <nav>
-      <a th:href="@{/submit}">Submit</a>
-    </nav>
+    <h1><span th:text="${username}">Username</span></h1>
     
     <div class="submissions">
       <div class="submission" th:each="submission : ${submissions}">
         <div th:text="${submission.title}"></div>
         <div th:text="${submission.body}"></div>
-        <div>By <span th:text="${submission.author.username}"></span></div>
       </div>
     </div>
 
