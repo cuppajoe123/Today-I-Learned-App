@@ -25,12 +25,12 @@ public class SubmissionController {
         this.submissionRepo = submissionRepo;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public String submissionForm() {
         return "submissionForm";
     }
 
-    @PostMapping("/")
+    @PostMapping()
     public String processSubmission(Submission submission, @AuthenticationPrincipal User author) {
         submission.setAuthor(author);
         submissionRepo.save(submission);

@@ -26,10 +26,6 @@ public class HomeController {
     @GetMapping
     public String homePage() {
         Iterable<Submission> submissions = submissionRepo.findAll();
-        for (Submission submission : submissions) {
-            log.info("Submission: {}", submission);
-            System.out.println(submission);
-        }
         return "home";
     }
 
