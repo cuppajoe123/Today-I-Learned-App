@@ -5,9 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
+import todayilearned.security.SecurityConfig;
+import todayilearned.security.UserRepositoryUserDetailsService;
 import todayilearned.web.HomeController;
 
 import java.util.Date;
@@ -21,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(HomeController.class)
+@ContextConfiguration(classes = {SecurityConfig.class, TodayILearnedApplication.class})
 public class HomeControllerTest {
 
     @Autowired
@@ -33,7 +37,7 @@ public class HomeControllerTest {
     private UserRepository userRepo;
 
     @Test
-    @WithMockUser(roles = "USER")
+//    @WithMockUser(roles = "USER")
     public void getHomePage() throws Exception {
         User joe = new User("jstrauss24@bfhsla.org", "cuppajoe", "password");
         Iterable<Submission> submissions = List.of(new Submission(joe, new Date(), "First post", "bodytext"), new Submission(joe, new Date(), "Second post", "bodytext"));
