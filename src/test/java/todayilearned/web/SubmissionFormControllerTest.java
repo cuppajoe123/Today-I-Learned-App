@@ -12,7 +12,6 @@ import todayilearned.TodayILearnedApplication;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
-import todayilearned.web.SubmissionController;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,9 +19,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-@WebMvcTest(SubmissionController.class)
+@WebMvcTest(SubmissionFormController.class)
 @ContextConfiguration(classes = {SecurityConfig.class, TodayILearnedApplication.class})
-public class SubmissionControllerTest {
+public class SubmissionFormControllerTest {
 
     @Autowired
     MockMvc mockMvc;

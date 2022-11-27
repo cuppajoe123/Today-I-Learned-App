@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Today I Learned</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+  </head>
+  <body>
+    <h1><span th:text="${submission.title}"></span></h1>
+    <h2>By <span th:text="${submission.author.username}"></span></h2>
+    <div th:text="${submission.body}"></div>
+  </body>
+</html>

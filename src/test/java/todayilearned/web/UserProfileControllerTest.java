@@ -24,9 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UserFeedController.class)
+@WebMvcTest(UserProfileController.class)
 @ContextConfiguration(classes = {SecurityConfig.class, TodayILearnedApplication.class})
-public class UserFeedControllerTest {
+public class UserProfileControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

@@ -11,9 +11,8 @@
     <h1><span th:text="${username}">Username</span></h1>
     
     <div class="submissions">
-      <div class="submission" th:each="submission : ${submissions}">
-        <div th:text="${submission.title}"></div>
-        <div th:text="${submission.body}"></div>
+      <div class="submission" th:each="submission : ${allSubmissions}">
+        <div><a th:href="@{/submission/{submissionId}/(submissionId=${submission.id})}"><span th:text="${submission.title}"></span></a></div>
       </div>
     </div>
 
