@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,300&display=swap');
 
 body {
-    margin: 0px;
     font-family: "Roboto", sans-serif;
-    max-width: 1200px;
-    margin: 0 auto;
+    margin-right: 200px;
+    margin-left: 200px;
+    justify-self: center;
 }
 
 .header {
