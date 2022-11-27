@@ -7,7 +7,7 @@ body {
     margin: 0 auto;
 }
 
-.login-menu {
+.menu {
     display: flex;
     flex-direction: column;
     margin-right: 350px;
@@ -16,16 +16,16 @@ body {
     margin-bottom: 250px;
 }
 
-#loginForm {
+#form {
     display: flex;
     flex-direction: column;
 }
 
-.login-menu * {
+.menu * {
     align-self: center;
 }
 
-.login-button {
+.submitButton {
     font-size: 14px;
     padding-left: 16px;
     padding-right: 16px;
@@ -37,11 +37,7 @@ body {
     align-self: center;
 }
 
-input#username {
-    margin-left: 10px;
-}
-
-input#password {
+input* {
     margin-left: 10px;
 }
 
