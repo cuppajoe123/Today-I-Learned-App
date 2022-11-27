@@ -18,7 +18,7 @@
       <div class="submission" th:each="submission : ${submissions}">
         <div th:text="${submission.title}"></div>
         <div th:text="${submission.body}"></div>
-        <div>By <span th:text="${submission.author.username}"></span></div>
+        <div>By <a th:href="@{/user/{username}/(username=${submission.author.username})}"><span th:text="${submission.author.username}"></span></a></div>
       </div>
     </div>
 
