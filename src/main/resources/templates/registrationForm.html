@@ -5,25 +5,43 @@
   <head>
     <meta charset="UTF-8">
     <title>Today I Learned</title>
+    <link rel="stylesheet" th:href="@{/form.css}">
   </head>
   <body>
-    <h1>Register</h1>
-    
-    <form method="POST" th:action="@{/register}" id="registrationForm">
-      
-      <label for="email">Email: </label>
-      <input type="text" name="email"><br/>
-      
-      <label for="username">Username: </label>
-      <input type="text" name="username"><br/>
-  
-      <label for="password">Password: </label>
-      <input type="password" name="password"><br/>
-  
-      <label for="confirm">Confirm password: </label>
-      <input type="password" name="confirm"><br/>
-      
-      <input type="submit" value="Register">
-    </form>
+    <div class="menu">
+      <h1>Register</h1>
+
+      <form method="POST" th:action="@{/register}" id="form">
+        <table>
+          <tbody>
+          <tr>
+            <td>Email: </td>
+            <td>
+              <input type="text" name="email"><br/>
+            </td>
+          </tr>
+          <tr>
+            <td>Username: </td>
+            <td>
+              <input type="text" name="username"><br/>
+            </td>
+          </tr>
+          <tr>
+            <td>Password: </td>
+            <td>
+              <input type="password" name="password"><br/>
+            </td>
+          </tr>
+          <tr>
+            <td>Confirm password: </td>
+            <td>
+              <input type="password" name="confirm"><br/>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <input class="submitButton" type="submit" value="Register">
+      </form>
+    </div>
   </body>
 </html>

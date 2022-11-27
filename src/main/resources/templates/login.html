@@ -3,16 +3,16 @@
       xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Taco Cloud</title>
-    <link rel="stylesheet" th:href="@{/login.css}">
+    <link rel="stylesheet" th:href="@{/form.css}">
   </head>
 
   <body>
-    <div class="login-menu">
+    <div class="menu">
       <h1>Login</h1>
       <p>New here? Click
          <a th:href="@{/register}">here</a> to register.</p>
 
-      <form method="POST" th:action="@{/login}" id="loginForm">
+      <form method="POST" th:action="@{/login}" id="form">
         <table>
           <tbody>
           <tr>
@@ -29,7 +29,7 @@
           </tr>
           </tbody>
         </table>
-        <input class="login-button" type="submit" value="Login"/>
+        <input class="submitButton" type="submit" value="Login"/>
       </form>
     </div>
   </body>
