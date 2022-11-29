@@ -14,6 +14,7 @@ import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
 import todayilearned.security.UserRepositoryUserDetailsService;
+import todayilearned.util.HtmlService;
 import todayilearned.web.HomeController;
 
 import java.util.Date;
@@ -34,15 +35,21 @@ public class HomeControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
+    private HtmlService htmlService;
+
+    @MockBean
     private SubmissionRepository submissionRepo;
 
     @MockBean
     private UserRepository userRepo;
 
+
     @Test
     public void getHomePage() throws Exception {
         User joe = new User("jstrauss24@bfhsla.org", "cuppajoe", "password");
-        Iterable<Submission> submissions = List.of(new Submission(joe, new Date(), "First post", "bodytext"), new Submission(joe, new Date(), "Second post", "bodytext"));
+        final String body = "bodytext";
+        when(htmlService.markdownToHtml(body)).thenReturn("<p>bodytext</p>");
+        Iterable<Submission> submissions = List.of(new Submission(joe, new Date(), "First post", body, htmlService.markdownToHtml(body)), new Submission(joe, new Date(), "Second post", body, htmlService.markdownToHtml(body)));
         when(submissionRepo.findAll()).thenReturn(submissions);
 
         this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())

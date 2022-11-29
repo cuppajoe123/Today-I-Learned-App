@@ -5,14 +5,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import todayilearned.Submission;
 import todayilearned.User;
+import todayilearned.util.HtmlService;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @DataJpaTest
 public class SubmissionRepositoryTest {
@@ -23,6 +26,9 @@ public class SubmissionRepositoryTest {
     @Autowired
     UserRepository userRepo;
 
+    @MockBean
+    HtmlService htmlService;
+
     User joe;
     Date today;
     ArrayList<Submission> submissions;
@@ -32,9 +38,11 @@ public class SubmissionRepositoryTest {
         joe = new User("jstrauss24@bfhsla.org", "cuppajoe", "password");
         userRepo.save(joe);
         today = new Date();
+        String body = "bodytext";
+        when(htmlService.markdownToHtml(body)).thenReturn("<p>bodytext</p>");
         submissions = new ArrayList<>();
-        submissions.add(new Submission(joe, today, "This is my first submission", "Body text"));
-        submissions.add(new Submission(joe, today, "This is my second submission", "Body text"));
+        submissions.add(new Submission(joe, today, "This is my first submission", body, htmlService.markdownToHtml(body)));
+        submissions.add(new Submission(joe, today, "This is my second submission", body, htmlService.markdownToHtml(body)));
     }
     @Test
     public void saveAndFetchSubmission() {
@@ -45,7 +53,7 @@ public class SubmissionRepositoryTest {
         assertThat(fetchedSubmission.getPostedOn().equals(today));
         assertThat(fetchedSubmission.getAuthor().equals(joe));
         assertThat(fetchedSubmission.getTitle().equals("This is my first submission"));
-        assertThat(fetchedSubmission.getBody().equals("Body text"));
+        assertThat(fetchedSubmission.getBody().equals("bodytext"));
     }
 
     @Test

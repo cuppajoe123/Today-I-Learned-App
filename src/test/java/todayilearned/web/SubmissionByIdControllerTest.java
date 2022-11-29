@@ -13,6 +13,7 @@ import todayilearned.User;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
+import todayilearned.util.HtmlService;
 
 import java.util.Date;
 import java.util.Optional;
@@ -32,6 +33,9 @@ public class SubmissionByIdControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
+    private HtmlService htmlService;
+
+    @MockBean
     private SubmissionRepository submissionRepo;
 
     @MockBean
@@ -40,12 +44,14 @@ public class SubmissionByIdControllerTest {
     @Test
     public void getSubmissionById() throws Exception {
         User joe = new User(1L, "jstrauss24@bfhsla.org", "cuppajoe", "password");
-        Optional<Submission> submission = Optional.of(new Submission(1L, joe, new Date(), "Interesting title", "Body text"));
+        final String body = "bodytext";
+        when(htmlService.markdownToHtml(body)).thenReturn("<p>bodytext</p>");
+        Optional<Submission> submission = Optional.of(new Submission(1L, joe, new Date(), "Interesting title", body, htmlService.markdownToHtml(body)));
 
         when(submissionRepo.findById(submission.get().getId())).thenReturn(submission);
         when(userRepo.findByUsername("cuppajoe")).thenReturn(joe);
         this.mockMvc.perform(get("/submission/" + submission.get().getId())).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Interesting title")))
-                .andExpect(content().string(containsString("Body text")));
+                .andExpect(content().string(containsString("bodytext")));
     }
 }

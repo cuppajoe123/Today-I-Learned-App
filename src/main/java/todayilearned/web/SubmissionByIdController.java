@@ -35,6 +35,7 @@ public class SubmissionByIdController {
         Optional<Submission> submission = submissionRepo.findById(id);
         if (submission.isPresent())
             return submission.get();
-        return new Submission(null, new Date(), "Does not exist", "Does not exist");
+        /* TODO: Come up with better solution to this null */
+        return null;
     }
 }

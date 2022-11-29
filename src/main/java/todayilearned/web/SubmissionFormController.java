@@ -8,15 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import todayilearned.Submission;
 import todayilearned.User;
 import todayilearned.data.SubmissionRepository;
+import todayilearned.util.HtmlService;
 
 @Controller
 @RequestMapping("/submit")
 public class SubmissionFormController {
 
     private SubmissionRepository submissionRepo;
+    private HtmlService htmlService;
 
-    public SubmissionFormController(SubmissionRepository submissionRepo) {
+    public SubmissionFormController(SubmissionRepository submissionRepo, HtmlService htmlService) {
         this.submissionRepo = submissionRepo;
+        this.htmlService = htmlService;
     }
 
     @GetMapping()
@@ -27,6 +30,7 @@ public class SubmissionFormController {
     @PostMapping()
     public String processSubmission(Submission submission, @AuthenticationPrincipal User author) {
         submission.setAuthor(author);
+        submission.setHtmlBody(htmlService.markdownToHtml(submission.getBody()));
         submissionRepo.save(submission);
         return "redirect:/";
     }

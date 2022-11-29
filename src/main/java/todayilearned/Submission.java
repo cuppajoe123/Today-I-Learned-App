@@ -28,13 +28,18 @@ public class Submission implements Serializable {
     private String title;
 
     @NotBlank(message = "A body is required")
+    @Column(name = "body", columnDefinition = "text")
     private String body;
 
-    public Submission(User author, Date postedOn, String title, String body) {
+    @Column(name = "htmlBody", columnDefinition = "text")
+    private String htmlBody;
+
+    public Submission(User author, Date postedOn, String title, String body, String htmlBody) {
         this.author = author;
         this.postedOn = postedOn;
         this.title = title;
         this.body = body;
+        this.htmlBody = htmlBody;
     }
 
 }

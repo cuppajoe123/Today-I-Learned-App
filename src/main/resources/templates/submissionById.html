@@ -10,6 +10,6 @@
   <body>
     <h1><span th:text="${submission.title}"></span></h1>
     <h2>By <span th:text="${submission.author.username}"></span></h2>
-    <div th:text="${submission.body}"></div>
+    <div th:utext="${submission.htmlBody}"></div>
   </body>
 </html>

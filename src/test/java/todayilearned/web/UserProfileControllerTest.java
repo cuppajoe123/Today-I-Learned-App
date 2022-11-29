@@ -12,6 +12,7 @@ import todayilearned.User;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
+import todayilearned.util.HtmlService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +33,9 @@ public class UserProfileControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
+    private HtmlService htmlService;
+
+    @MockBean
     private SubmissionRepository submissionRepo;
 
     @MockBean
@@ -40,7 +44,9 @@ public class UserProfileControllerTest {
     @Test
     public void getUserFeed() throws Exception {
         User joe = new User("jstrauss24@bfhsla.org", "cuppajoe", "password");
-        ArrayList<Submission> submissions = new ArrayList<>(List.of(new Submission(joe, new Date(), "First post", "bodytext"), new Submission(joe, new Date(), "Second post", "bodytext")));
+        final String body = "bodytext";
+        when(htmlService.markdownToHtml(body)).thenReturn("<p>bodytext</p>");
+        ArrayList<Submission> submissions = new ArrayList<>(List.of(new Submission(joe, new Date(), "First post", body, htmlService.markdownToHtml(body)), new Submission(joe, new Date(), "Second post", body, htmlService.markdownToHtml(body))));
         when(submissionRepo.findByAuthor(joe)).thenReturn(submissions);
         when(userRepo.findByUsername("cuppajoe")).thenReturn(joe);
 

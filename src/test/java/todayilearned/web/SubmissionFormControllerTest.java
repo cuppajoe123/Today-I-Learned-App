@@ -1,6 +1,7 @@
 package todayilearned.web;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -12,6 +13,7 @@ import todayilearned.TodayILearnedApplication;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
+import todayilearned.util.HtmlService;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -31,6 +33,9 @@ public class SubmissionFormControllerTest {
 
     @MockBean
     UserRepository userRepo;
+
+    @MockBean
+    HtmlService htmlService;
 
     @Test
     @WithMockUser(roles = "USER")
