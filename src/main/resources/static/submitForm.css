@@ -49,7 +49,7 @@ a {
     flex-direction: column;
 }
 
-.menu * {
+form, h1 {
     align-self: center;
 }
 
@@ -69,3 +69,6 @@ input* {
     margin-left: 10px;
 }
 
+input, textarea {
+    align-self: auto;
+}

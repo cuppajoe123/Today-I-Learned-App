@@ -5,9 +5,18 @@
   <head>
     <meta charset="UTF-8">
     <title>Today I Learned</title>
-    <link rel="stylesheet" th:href="@{/style.css}">
+    <link rel="stylesheet" th:href="@{/home.css}">
   </head>
   <body>
+    <div class="header">
+      <div class="left-side">Today I Learned</div>
+      <ul class="right-side">
+        <li><a th:href="@{/submit}">Submit</a></li>
+        <li><a th:href="@{/login}">Login</a></li>
+        <li><a th:href="@{/login}">Login</a></li>
+      </ul>
+    </div>
+  
     <h1><span th:text="${submission.title}"></span></h1>
     <h2>By <span th:text="${submission.author.username}"></span></h2>
     <div th:utext="${submission.htmlBody}"></div>

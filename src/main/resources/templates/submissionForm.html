@@ -5,19 +5,31 @@
   <head>
     <meta charset="UTF-8">
     <title>Today I Learned</title>
+    <link rel="stylesheet" th:href="@{/submitForm.css}">
   </head>
   <body>
-    <h1>Submit</h1>
-    
-    <form method="POST" th:action="@{/submit}" id="submissionForm">
+    <div class="header">
+      <div class="left-side">Today I Learned</div>
+      <ul class="right-side">
+        <li><a th:href="@{/submit}">Submit</a></li>
+        <li><a th:href="@{/login}">Login</a></li>
+        <li><a th:href="@{/login}">Login</a></li>
+      </ul>
+    </div>
+  
+    <div class="menu">
+      <h1>Submit</h1>
       
-      <label for="title">Title: </label>
-      <input type="text" name="title"><br/>
-      
-      <label for="body">Content: </label>
-      <textarea name="body" rows="15" cols="80"></textarea>
-      
-      <input type="submit" value="Submit">
-    </form>
+      <form method="POST" th:action="@{/submit}" id="form">
+        
+        <label for="title">Title: </label>
+        <input type="text" name="title"><br/>
+        
+        <label for="body">Content: </label>
+        <textarea name="body" rows="15" cols="80"></textarea>
+        
+        <input class="submitButton" type="submit" value="Submit">
+      </form>
+    </div>
   </body>
 </html>
