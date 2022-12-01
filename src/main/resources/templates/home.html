@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org"
       lang="en">
   <head>
     <meta charset="UTF-8">
@@ -12,8 +12,13 @@
       <div class="left-side">Today I Learned</div>
       <ul class="right-side">
         <li><a th:href="@{/submit}">Submit</a></li>
-        <li><a th:href="@{/login}">Login</a></li>
-        <li><a th:href="@{/login}">Login</a></li>
+        <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
+        <li sec:authorize="isAuthenticated()">
+          <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Sign out</a>
+          <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+            <input hidden type="submit" value="Sign Out" />
+          </form>
+        </li>
       </ul>
     </div>
    

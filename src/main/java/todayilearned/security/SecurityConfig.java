@@ -18,6 +18,7 @@ public class SecurityConfig {
         http.csrf().disable();
         http.headers().frameOptions().disable();
         http.formLogin().loginPage("/login");
+        http.logout(logout -> logout.logoutSuccessUrl("/"));
 
         return http.build();
     }
