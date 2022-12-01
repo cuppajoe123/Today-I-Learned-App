@@ -5,11 +5,12 @@
   <head>
     <meta charset="UTF-8">
     <title>Today I Learned</title>
-    <link rel="stylesheet" th:href="@{/style.css}">
+    <link rel="stylesheet" th:href="@{/home.css}">
+    <link rel="stylesheet" th:href="@{/header.css}">
   </head>
   <body>
+    <div th:replace="fragments :: site-header"></div>
     <h1><span th:text="${username}">Username</span></h1>
-    
     <div class="submissions">
       <div class="submission" th:each="submission : ${allSubmissions}">
         <div><a th:href="@{/submission/{submissionId}/(submissionId=${submission.id})}"><span th:text="${submission.title}"></span></a></div>

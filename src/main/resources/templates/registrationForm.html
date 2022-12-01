@@ -6,8 +6,10 @@
     <meta charset="UTF-8">
     <title>Today I Learned</title>
     <link rel="stylesheet" th:href="@{/form.css}">
+    <link rel="stylesheet" th:href="@{/header.css}">
   </head>
   <body>
+    <div th:replace="fragments :: blank-header"></div>
     <div class="menu">
       <h1>Register</h1>
 

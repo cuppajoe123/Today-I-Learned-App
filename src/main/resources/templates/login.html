@@ -4,9 +4,11 @@
   <head>
     <title>Taco Cloud</title>
     <link rel="stylesheet" th:href="@{/form.css}">
+    <link rel="stylesheet" th:href="@{/header.css}">
   </head>
 
   <body>
+    <div th:replace="fragments :: blank-header"></div>
     <div class="menu">
       <h1>Login</h1>
       <p>New here? Click
