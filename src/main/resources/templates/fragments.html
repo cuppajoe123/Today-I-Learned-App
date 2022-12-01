@@ -5,7 +5,7 @@
   </head>
   <body>
     <header th:fragment="site-header">
-      <div class="left-side">Today I Learned</div>
+      <a class="left-side" th:href="@{/}">Today I Learned</a>
       <ul class="right-side">
         <li><a th:href="@{/submit}">Submit</a></li>
         <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
@@ -19,12 +19,12 @@
     </header>
     
     <header th:fragment="blank-header">
-      <div class="left-side">Today I Learned</div>
+      <a class="left-side" th:href="@{/}">Today I Learned</a>
       <div class="right-side"></div>
     </header>
   
     <header th:fragment="no-submit-header">
-      <div class="left-side">Today I Learned</div>
+      <a class="left-side" th:href="@{/}">Today I Learned</a>
       <ul class="right-side">
         <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
         <li sec:authorize="isAuthenticated()">
