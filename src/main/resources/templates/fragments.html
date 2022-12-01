@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8">
   </head>
@@ -9,6 +10,7 @@
       <ul class="right-side">
         <li><a th:href="@{/submit}">Submit</a></li>
         <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/user/{username}(username=${#authentication.name})}"><span sec:authentication="name"></span></a></li>
         <li sec:authorize="isAuthenticated()">
           <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Sign out</a>
           <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
@@ -27,6 +29,7 @@
       <a class="left-side" th:href="@{/}">Today I Learned</a>
       <ul class="right-side">
         <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/user/{username}(username=${#authentication.name})}"><span sec:authentication="name"></span></a></li>
         <li sec:authorize="isAuthenticated()">
           <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Sign out</a>
           <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
