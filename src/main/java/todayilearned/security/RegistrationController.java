@@ -34,7 +34,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String processRegistration(HttpServletRequest request, @ModelAttribute @Valid RegistrationForm form, Errors errors, Model model) throws ServletException {
+    public String processRegistration(HttpServletRequest request, @ModelAttribute @Valid RegistrationForm form, Errors errors) throws ServletException {
         if (errors.hasErrors()) {
             return "registrationForm";
         }

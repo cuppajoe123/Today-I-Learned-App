@@ -2,8 +2,10 @@ package todayilearned.web;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import todayilearned.Submission;
@@ -26,12 +28,14 @@ public class SubmissionFormController {
     }
 
     @GetMapping()
-    public String submissionForm() {
+    public String submissionForm(Model model) {
+        model.addAttribute("submission", new Submission());
         return "submissionForm";
     }
 
     @PostMapping()
-    public String processSubmission(@Valid Submission submission, Errors errors, @AuthenticationPrincipal User author) {
+    public String processSubmission(@ModelAttribute @Valid Submission submission, Errors errors, @AuthenticationPrincipal User author, Model model) {
+        System.out.println(model);
         if (errors.hasErrors())
             return "submissionForm";
         submission.setAuthor(author);
