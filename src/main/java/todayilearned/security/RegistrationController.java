@@ -29,22 +29,13 @@ public class RegistrationController {
 
     @GetMapping
     public String registerForm(Model model) {
-        model.addAttribute("form", new RegistrationForm());
-//        model.addAttribute("email", "");
-//        model.addAttribute("username", "");
-//        model.addAttribute("password", "");
-//        model.addAttribute("confirm", "");
+        model.addAttribute("registrationForm", new RegistrationForm());
         return "registrationForm";
     }
 
     @PostMapping
-    public String processRegistration(HttpServletRequest request, @ModelAttribute @Valid RegistrationForm form, BindingResult bindingResult, Model model) throws ServletException {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("form", form);
-            model.addAttribute("email", form.getEmail());
-            model.addAttribute("username", form.getUsername());
-            model.addAttribute("password", form.getPassword());
-            model.addAttribute("confirm", form.getPassword());
+    public String processRegistration(HttpServletRequest request, @ModelAttribute @Valid RegistrationForm form, Errors errors, Model model) throws ServletException {
+        if (errors.hasErrors()) {
             return "registrationForm";
         }
         userRepo.save(form.toUser(passwordEncoder));
