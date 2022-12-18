@@ -1,6 +1,7 @@
 package todayilearned;
 
 import lombok.extern.slf4j.Slf4j;
+import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 import todayilearned.util.HtmlService;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 @Configuration
@@ -36,5 +38,10 @@ public class DataLoader {
             submissionRepo.save(new Submission(joe, new Date(), "Title: e", body + 'd', htmlService.markdownToHtml(body + 'd')));
             submissionRepo.save(new Submission(joe, new Date(), "Title: f", body + 'e', htmlService.markdownToHtml(body + 'e')));
         };
+    }
+
+    @Bean(initMethod = "start", destroyMethod = "stop")
+    public Server h2Server() throws SQLException {
+        return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
     }
 }
