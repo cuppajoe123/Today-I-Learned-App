@@ -17,7 +17,8 @@
       </div>
     </div>
     
-    <a class="nextPage" th:href="@{/?p={nextPage}(nextPage=${{param.p}} + ${{1}})}">Next Page</a>
+    <a class="nextPage" th:if="${param.p != null}" th:href="@{/?p={nextPage}(nextPage=${{param.p}} + ${{1}})}">Next Page</a>
+    <a class="nextPage" th:if="${param.p == null}" th:href="@{/?p=1}">Next Page</a>
 
   </body>
 </html>
