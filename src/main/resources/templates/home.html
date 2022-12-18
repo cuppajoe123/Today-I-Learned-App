@@ -16,6 +16,8 @@
         <div class="author">By <a th:href="@{/user/{username}/(username=${submission.author.username})}"><span th:text="${submission.author.username}"></span></a></div>
       </div>
     </div>
+    
+    <a class="nextPage" th:href="@{/?p={nextPage}(nextPage=${{param.p}} + ${{1}})}">Next Page</a>
 
   </body>
 </html>
