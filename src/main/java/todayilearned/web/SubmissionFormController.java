@@ -38,11 +38,13 @@ public class SubmissionFormController {
         return "submissionForm";
     }
 
-    // TODO: if an edit parameter is posted and is a valid id, update post instead of making a new one.
     @PostMapping()
-    public String processSubmission(@ModelAttribute @Valid Submission submission, Errors errors, @AuthenticationPrincipal User author) {
+    public String processSubmission(@RequestParam(required = false, name = "edit")  Long submissionId, @ModelAttribute @Valid Submission submission, Errors errors, @AuthenticationPrincipal User author) {
         if (errors.hasErrors())
             return "submissionForm";
+        if (submissionId != null) {
+            submission.setId(submissionId);
+        }
         submission.setAuthor(author);
         submission.setHtmlBody(htmlService.markdownToHtml(submission.getBody()));
         submissionRepo.save(submission);
