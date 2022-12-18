@@ -13,5 +13,6 @@
     <h1><span th:text="${submission.title}"></span></h1>
     <h2>By <span th:text="${submission.author.username}"></span></h2>
     <div th:utext="${submission.htmlBody}"></div>
+    <a th:if="${#authentication.name == submission.author.username}" th:href="@{/submit/?edit={id}(id = ${submission.id})}">Edit</a>
   </body>
 </html>
