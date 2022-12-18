@@ -34,8 +34,7 @@ public class SubmissionFormController {
     }
 
     @PostMapping()
-    public String processSubmission(@ModelAttribute @Valid Submission submission, Errors errors, @AuthenticationPrincipal User author, Model model) {
-        System.out.println(model);
+    public String processSubmission(@ModelAttribute @Valid Submission submission, Errors errors, @AuthenticationPrincipal User author) {
         if (errors.hasErrors())
             return "submissionForm";
         submission.setAuthor(author);

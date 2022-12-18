@@ -15,8 +15,12 @@ public class SecurityConfig {
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
         http.authorizeRequests().antMatchers("/submit").hasRole("USER")
                         .antMatchers("/", "/**").permitAll();
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
+        http.csrf().ignoringAntMatchers("/h2-console/**");
+        http.headers().frameOptions().sameOrigin();
+        http.headers()
+                .xssProtection()
+                .and()
+                .contentSecurityPolicy("script-src 'self'");
         http.formLogin().loginPage("/login");
         http.logout(logout -> logout.logoutSuccessUrl("/"));
 
