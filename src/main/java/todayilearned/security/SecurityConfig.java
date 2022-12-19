@@ -15,7 +15,7 @@ public class SecurityConfig {
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
         http.authorizeRequests().antMatchers("/submit").hasRole("USER")
                         .antMatchers("/", "/**").permitAll();
-        http.csrf().ignoringAntMatchers("/h2-console/**");
+        http.csrf().ignoringAntMatchers("/h2-console/**", "/vote");
         http.headers().frameOptions().sameOrigin();
         http.headers()
                 .xssProtection()

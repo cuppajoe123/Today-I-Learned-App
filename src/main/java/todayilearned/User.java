@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -13,7 +14,7 @@ import java.util.Collection;
 @Table(name = "\"USER\"")
 @Data
 @NoArgsConstructor(access= AccessLevel.PRIVATE, force = true)
-@AllArgsConstructor
+//@AllArgsConstructor
 @RequiredArgsConstructor
 public class User implements UserDetails {
 
@@ -26,6 +27,16 @@ public class User implements UserDetails {
     private final String email;
     private final String username;
     private final String password;
+
+    /* A list of the id's of submissions the user has voted on */
+    private ArrayList<Long> votedSubmissions = new ArrayList<>();
+
+    public User(Long id, String email, String username, String password) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
