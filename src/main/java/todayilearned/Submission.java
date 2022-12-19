@@ -56,4 +56,8 @@ public class Submission implements Serializable {
         this.htmlBody = htmlBody;
     }
 
+    public void incrementPoints() {
+        this.points++;
+    }
+
 }

@@ -38,6 +38,10 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public void addSubmission(Long id) {
+        this.votedSubmissions.add(id);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
