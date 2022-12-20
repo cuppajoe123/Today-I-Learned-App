@@ -1,16 +1,10 @@
 package todayilearned.web;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import todayilearned.Submission;
 import todayilearned.User;
-import todayilearned.VoteRequest;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 
@@ -36,10 +30,10 @@ public class VoteController {
      */
     @PostMapping()
     @ResponseBody
-    public String processVote(@RequestBody VoteRequest voteRequest, @AuthenticationPrincipal User user) {
-        System.out.println(voteRequest);
-        Optional<Submission> submissionOptional = submissionRepo.findById(voteRequest.getSubmissionId());
-        if (submissionOptional.isPresent() && !user.getVotedSubmissions().contains(voteRequest.getSubmissionId())) {
+    public String processVote(@RequestParam(name = "submissionId") Long submissionId, @AuthenticationPrincipal User user) {
+        System.out.println(submissionId);
+        Optional<Submission> submissionOptional = submissionRepo.findById(submissionId);
+        if (submissionOptional.isPresent() && !user.getVotedSubmissions().contains(submissionId)) {
             Submission submission = submissionOptional.get();
             submission.incrementPoints();
             submissionRepo.save(submission);
