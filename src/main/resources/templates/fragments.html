@@ -6,13 +6,15 @@
   </head>
   <body>
     <header th:fragment="site-header">
+      <!-- Browser not recognizing logoutForm, so one might try POSTing to /logout with JS on the click of #logout and removing the form altogether -->
       <a class="left-side" th:href="@{/}">Today I Learned</a>
       <ul class="right-side">
         <li><a th:href="@{/submit}">Submit</a></li>
         <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
         <li sec:authorize="isAuthenticated()"><a th:href="@{/user/{username}(username=${#authentication.name})}"><span sec:authentication="name"></span></a></li>
         <li sec:authorize="isAuthenticated()">
-          <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Sign out</a>
+          <script th:src="@{/js/logout.js}" defer></script>
+          <a id="logout" class="dropdown-toggle" href="#">Sign out</a>
           <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
             <input hidden type="submit" value="Sign Out" />
           </form>
@@ -31,7 +33,8 @@
         <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
         <li sec:authorize="isAuthenticated()"><a th:href="@{/user/{username}(username=${#authentication.name})}"><span sec:authentication="name"></span></a></li>
         <li sec:authorize="isAuthenticated()">
-          <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Sign out</a>
+          <script th:src="@{/js/logout.js}" defer></script>
+          <a id="logout" class="dropdown-toggle" href="#" >Sign out</a>
           <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
             <input hidden type="submit" value="Sign Out" />
           </form>
