@@ -1,5 +1,8 @@
 package todayilearned.web;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/vote")
+@Slf4j
 public class VoteController {
 
     private SubmissionRepository submissionRepo;
@@ -30,17 +34,17 @@ public class VoteController {
      */
     @PostMapping()
     @ResponseBody
-    public String processVote(@RequestParam(name = "submissionId") Long submissionId, @AuthenticationPrincipal User user) {
-        System.out.println(submissionId);
+    public ResponseEntity<Void> processVote(@RequestParam(name = "submissionId") Long submissionId, @AuthenticationPrincipal User user) {
         Optional<Submission> submissionOptional = submissionRepo.findById(submissionId);
         if (submissionOptional.isPresent() && !user.getVotedSubmissions().contains(submissionId)) {
             Submission submission = submissionOptional.get();
             submission.incrementPoints();
             submissionRepo.save(submission);
             user.addSubmission(submission.getId());
-            return "{\"Votes\": " + submission.getPoints() + "}";
+            log.info("Submission " + submission.getId() + " has " + submission.getPoints() + " points");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return "{\"Status\": \"Forbidden\"";
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
 }
