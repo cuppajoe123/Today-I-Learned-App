@@ -13,7 +13,7 @@
     <div th:replace="fragments :: site-header"></div>
     <div class="submissions">
       <div class="submission" th:each="submission : ${submissions}">
-        <div class="upvote" th:data-id="@{vote?submissionId={id}(id=${submission.id})}">^</div>
+        <div class="upvote" th:if="${upvotedSubmissionsMap.get(submission) == false}" th:data-id="@{vote?submissionId={id}(id=${submission.id})}">^</div>
         <div class="title"><a th:href="@{/submission/{submissionId}/(submissionId=${submission.id})}"><span th:text="${submission.title}"></span></a></div>
         <div class="author">By <a th:href="@{/user/{username}/(username=${submission.author.username})}"><span th:text="${submission.author.username}"></span></a></div>
       </div>

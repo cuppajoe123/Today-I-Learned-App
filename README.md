@@ -4,7 +4,6 @@ A website where users can read and share about new and interesting things they h
 ## TODO
 - Implement search feature (Algolia?)
 - Implement Hacker News ranking algorithm:
-    - Implement point system:
-        - Users must only be able to vote once on a post
-        - Button must dissapear after voting, but must not require the page to reload (look for simplest solution)
+- Fine tune UI regarding voting
+- If a user logs in after attempting to vote, send the vote after successful login
 - Implement colorscheme

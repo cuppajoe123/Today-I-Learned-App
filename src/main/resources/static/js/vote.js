@@ -7,11 +7,12 @@ voteButtons.forEach((button) => {
     })
       .then((response) => {
         if (response.redirected) return response.text();
+        if (response.ok) button.style.visibility = 'hidden';
         throw new Error("No redirect to login");
       })
       .then((text) => {
         document.querySelector("html").innerHTML = text;
       })
-      .catch((error) => console.log(error));
+      .catch(() => {return});
   });
 });

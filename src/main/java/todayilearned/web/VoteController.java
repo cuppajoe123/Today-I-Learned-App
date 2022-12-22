@@ -41,6 +41,7 @@ public class VoteController {
             submission.incrementPoints();
             submissionRepo.save(submission);
             user.addSubmission(submission.getId());
+            userRepo.save(user);
             log.info("Submission " + submission.getId() + " has " + submission.getPoints() + " points");
             return new ResponseEntity<>(HttpStatus.OK);
         }
