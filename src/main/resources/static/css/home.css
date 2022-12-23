@@ -13,12 +13,31 @@ a {
 
 .submission {
     padding: 10px;
+    display: flex;
 }
 
-.submission .author {
+.submission-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.upvote-container {
+    margin-right: 5px;
+}
+
+.upvote {
+    padding-top: 10px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid black;
+}
+
+.submission-info .author {
     font-size: 16px;
 }
 
-.submission .title {
+.submission-info .title {
     font-size: 25px;
 }
