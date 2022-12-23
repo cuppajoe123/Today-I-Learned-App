@@ -29,9 +29,9 @@ a {
     padding-top: 10px;
     width: 0;
     height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid black;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: calc((7px + 7px) * 0.866) solid black;
 }
 
 .submission-info .author {
