@@ -2,6 +2,7 @@ package todayilearned.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import todayilearned.Submission;
 import todayilearned.User;
 import todayilearned.data.SubmissionRepository;
+import todayilearned.util.HomePageResults;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,16 +25,19 @@ public class HomeController {
 
     SubmissionRepository submissionRepo;
 
+    HomePageResults homePageResults;
+
     final int pageSize = 15;
 
-    public HomeController(SubmissionRepository submissionRepo) {
+    public HomeController(SubmissionRepository submissionRepo, HomePageResults homePageResults) {
         this.submissionRepo = submissionRepo;
+        this.homePageResults = homePageResults;
     }
 
     @GetMapping
     public String homePage(@RequestParam(defaultValue = "0", name = "p") int pageNumber, Model model, @AuthenticationPrincipal User user) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
-        Page<Submission> page = submissionRepo.findAll(pageRequest);
+        Page<Submission> page = new PageImpl<Submission>(homePageResults.getTopSubmissions(), pageRequest, homePageResults.getTopSubmissions().size());
         log.info("User: " + user);
         /* This Map maps each post in a page to a boolean indicating whether the current user has already voted on it. */
         Map<Submission, Boolean> upvotedSubmissionsMap = new HashMap<>();
@@ -49,14 +54,5 @@ public class HomeController {
         model.addAttribute("submissions", page);
         model.addAttribute("upvotedSubmissionsMap", upvotedSubmissionsMap);
         return "home";
-    }
-
-
-    public void addSubmissionsToModel(@RequestParam(defaultValue = "0", name = "p") int pageNumber, Model model, @AuthenticationPrincipal User user) {
-        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
-        Page<Submission> page = submissionRepo.findAll(pageRequest);
-        model.addAttribute("submissions", page);
-        log.info("User: " + user);
-        Map<Submission, Boolean> upvotedSubmissionsMap = new HashMap<>();
     }
 }

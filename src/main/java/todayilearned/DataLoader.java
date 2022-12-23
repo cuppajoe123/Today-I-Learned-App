@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
+import todayilearned.util.HomePageResults;
 import todayilearned.util.HtmlService;
 
 import java.sql.SQLException;
@@ -22,6 +23,9 @@ public class DataLoader {
 
     @Autowired
     private HtmlService htmlService;
+
+    @Autowired
+    HomePageResults homePageResults;
 
     @Bean
     public CommandLineRunner loadData(SubmissionRepository submissionRepo, UserRepository userRepo) {
@@ -41,6 +45,7 @@ public class DataLoader {
             for (int i = 0; i < 105; i++) {
                 submissionRepo.save(new Submission(joe, date, i + ". This will most likely be the average length of a title", body, htmlService.markdownToHtml(body)));
             }
+            homePageResults.refreshSubmissions();
         };
     }
 
