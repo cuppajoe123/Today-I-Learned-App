@@ -15,11 +15,13 @@ import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
 import todayilearned.util.HtmlService;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @WebMvcTest(SubmissionFormController.class)
 @ContextConfiguration(classes = {SecurityConfig.class, TodayILearnedApplication.class})
@@ -45,6 +47,16 @@ public class SubmissionFormControllerTest {
             .contentType(MediaType.APPLICATION_FORM_URLENCODED))
             .andExpect(status().is3xxRedirection())
             .andExpect(header().stringValues("Location", "/"));
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    public void processInvalidSubmission() throws Exception {
+        mockMvc.perform(post("/submit").with(csrf())
+                .content("")) // empty title and body
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("A title is required")))
+                .andExpect(content().string(containsString("A body is required")));
     }
 
     @Test
