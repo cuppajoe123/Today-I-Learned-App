@@ -75,7 +75,6 @@ public class HomeControllerTest {
         int end = Math.min((start + pageRequest.getPageSize()), submissions.size());
         Page<Submission> page = new PageImpl<>(submissions.subList(start, end), pageRequest, submissions.size());
         when(submissionRepo.findAll(pageRequest)).thenReturn(page);
-        when(htmlService.markdownToHtml(body)).thenReturn("<p>bodytext</p>");
 
         HtmlPage homePage = webClient.getPage("http://localhost:8080/");
         List<String> results = homePage.getByXPath("//div[@class = 'submission']");
@@ -92,5 +91,10 @@ public class HomeControllerTest {
         HtmlPage homePage = webClient.getPage("http://localhost:8080/?p=1");
         List<String> results = homePage.getByXPath("//div[@class = 'submission']");
         assertEquals(results.size(), 10);
+    }
+
+    @Test
+    public void upvoteTest() throws Exception {
+
     }
 }
