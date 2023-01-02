@@ -51,8 +51,7 @@ public class HomeControllerTest {
     private WebClient webClient;
 
     /* Domain objects used in each test */
-    private final User user = new User("jstrauss24@bfhsla.org", "cuppajoe", "password");
-    private final String body = "bodytext";
+    private final User user = new User(0L, "jstrauss24@bfhsla.org", "cuppajoe", "password");
     private final Date date = new Date();
     ArrayList<Submission> submissions = new ArrayList<>();
 
@@ -63,8 +62,9 @@ public class HomeControllerTest {
                 .mockMvcSetup(mockMvc)
                 .contextPath("")
                 .build();
-        for (int i = 0; i < 25; i++) {
-            submissions.add(new Submission(user, date, i + ". This will most likely be the average length of a title", body, htmlService.markdownToHtml(body)));
+        for (long i = 0; i < 25; i++) {
+            String body = "bodytext";
+            submissions.add(new Submission(i, user, date, i + ". This will most likely be the average length of a title", body, htmlService.markdownToHtml(body)));
         }
     }
 
@@ -91,10 +91,5 @@ public class HomeControllerTest {
         HtmlPage homePage = webClient.getPage("http://localhost:8080/?p=1");
         List<String> results = homePage.getByXPath("//div[@class = 'submission']");
         assertEquals(results.size(), 10);
-    }
-
-    @Test
-    public void upvoteTest() throws Exception {
-
     }
 }
