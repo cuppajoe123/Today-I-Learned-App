@@ -26,12 +26,15 @@ public class SubmissionFormController {
     }
 
     @GetMapping()
-    public String submissionForm(@RequestParam(required = false, name = "edit")  Long submissionId, Model model) {
+    public String submissionForm(@RequestParam(required = false, name = "edit")  Long submissionId, @AuthenticationPrincipal User user, Model model) {
         if (submissionId != null) {
             Optional<Submission> submission = submissionRepo.findById(submissionId);
             if (submission.isPresent()) {
-                model.addAttribute("submission", submission.get());
-                return "submissionForm";
+                if (submission.get().getAuthor().equals(user)) {
+                    model.addAttribute("submission", submission.get());
+                    return "submissionForm";
+                } else
+                    return "redirect:/";
             }
         }
         model.addAttribute("submission", new Submission());
