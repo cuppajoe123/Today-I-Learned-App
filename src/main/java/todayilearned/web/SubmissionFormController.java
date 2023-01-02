@@ -1,5 +1,7 @@
 package todayilearned.web;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,12 +28,15 @@ public class SubmissionFormController {
     }
 
     @GetMapping()
-    public String submissionForm(@RequestParam(required = false, name = "edit")  Long submissionId, Model model) {
+    public String submissionForm(@RequestParam(required = false, name = "edit")  Long submissionId, @AuthenticationPrincipal User user, Model model) {
         if (submissionId != null) {
             Optional<Submission> submission = submissionRepo.findById(submissionId);
             if (submission.isPresent()) {
-                model.addAttribute("submission", submission.get());
-                return "submissionForm";
+                if (submission.get().getAuthor().equals(user)) {
+                    model.addAttribute("submission", submission.get());
+                    return "submissionForm";
+                } else
+                    return "redirect:/";
             }
         }
         model.addAttribute("submission", new Submission());
@@ -39,11 +44,15 @@ public class SubmissionFormController {
     }
 
     @PostMapping()
-    public String processSubmission(@RequestParam(required = false, name = "edit")  Long submissionId, @ModelAttribute @Valid Submission submission, Errors errors, @AuthenticationPrincipal User author) {
+    public String processSubmission(@RequestParam(required = false, name = "edit")  Long submissionId, @ModelAttribute @Valid Submission submission, Errors errors, @AuthenticationPrincipal User author) throws ForbiddenRequestException {
         if (errors.hasErrors())
             return "submissionForm";
         if (submissionId != null) {
-            submission.setId(submissionId);
+            Optional<Submission> submissionToEdit = submissionRepo.findById(submissionId);
+            if (submissionToEdit.isPresent() && submissionToEdit.get().getAuthor().equals(author))
+                submission.setId(submissionId);
+            else
+                throw new ForbiddenRequestException("Submission not found or not authorized");
         }
         submission.setAuthor(author);
         submission.setHtmlBody(htmlService.markdownToHtml(submission.getBody()));
@@ -51,5 +60,10 @@ public class SubmissionFormController {
         return "redirect:/";
     }
 
-
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    private static class ForbiddenRequestException extends Exception {
+        public ForbiddenRequestException(String msg) {
+            super(msg);
+        }
+    }
 }
