@@ -20,9 +20,11 @@ import todayilearned.User;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
+import todayilearned.util.HomePageResults;
 import todayilearned.util.HtmlService;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -48,11 +50,15 @@ public class HomeControllerTest {
     @MockBean
     private UserRepository userRepo;
 
+    @MockBean
+    private HomePageResults homePageResults;
+
     private WebClient webClient;
 
     /* Domain objects used in each test */
     private final User user = new User(0L, "jstrauss24@bfhsla.org", "cuppajoe", "password");
     private final Date date = new Date();
+    private Calendar calendar;
     ArrayList<Submission> submissions = new ArrayList<>();
 
 
@@ -66,15 +72,13 @@ public class HomeControllerTest {
             String body = "bodytext";
             submissions.add(new Submission(i, user, date, i + ". This will most likely be the average length of a title", body, htmlService.markdownToHtml(body)));
         }
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR)-3);
     }
 
     @Test
     public void verifyFilledHomePageResults() throws Exception {
-        PageRequest pageRequest = PageRequest.of(0, 15);
-        int start = (int) pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()), submissions.size());
-        Page<Submission> page = new PageImpl<>(submissions.subList(start, end), pageRequest, submissions.size());
-        when(submissionRepo.findAll(pageRequest)).thenReturn(page);
+        when(homePageResults.getTopSubmissions()).thenReturn(submissions);
 
         HtmlPage homePage = webClient.getPage("http://localhost:8080/");
         List<String> results = homePage.getByXPath("//div[@class = 'submission']");
@@ -83,11 +87,8 @@ public class HomeControllerTest {
 
     @Test
     public void verifyIncompleteHomePageResults() throws Exception {
-        PageRequest pageRequest = PageRequest.of(1, 15);
-        int start = (int) pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()), submissions.size());
-        Page<Submission> page = new PageImpl<>(submissions.subList(start, end), pageRequest, submissions.size());
-        when(submissionRepo.findAll(pageRequest)).thenReturn(page);
+        when(homePageResults.getTopSubmissions()).thenReturn(submissions);
+
         HtmlPage homePage = webClient.getPage("http://localhost:8080/?p=1");
         List<String> results = homePage.getByXPath("//div[@class = 'submission']");
         assertEquals(results.size(), 10);
