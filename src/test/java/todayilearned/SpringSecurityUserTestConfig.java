@@ -12,7 +12,7 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import java.util.List;
 
 @TestConfiguration
-public class SpringSecurityForUpvoteControllerImplTestConfig {
+public class SpringSecurityUserTestConfig {
 
     @Bean
     public User testUser() {

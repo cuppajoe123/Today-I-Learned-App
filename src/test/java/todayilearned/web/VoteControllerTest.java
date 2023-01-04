@@ -8,7 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import todayilearned.SpringSecurityForUpvoteControllerImplTestConfig;
+import todayilearned.SpringSecurityUserTestConfig;
 import todayilearned.Submission;
 import todayilearned.TodayILearnedApplication;
 import todayilearned.User;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(VoteController.class)
-@ContextConfiguration(classes = {SecurityConfig.class, TodayILearnedApplication.class, SpringSecurityForUpvoteControllerImplTestConfig.class})
+@ContextConfiguration(classes = {SecurityConfig.class, TodayILearnedApplication.class, SpringSecurityUserTestConfig.class})
 public class VoteControllerTest {
 
     @Autowired
