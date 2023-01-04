@@ -37,7 +37,17 @@ public class HomeController {
     @GetMapping
     public String homePage(@RequestParam(defaultValue = "0", name = "p") int pageNumber, Model model, @AuthenticationPrincipal User user) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
-        Page<Submission> page = new PageImpl<Submission>(homePageResults.getTopSubmissions(), pageRequest, homePageResults.getTopSubmissions().size());
+        List<Submission> submissionSubList;
+        if (pageNumber == 0)
+            submissionSubList = homePageResults.getTopSubmissions().subList(0, pageRequest.getPageSize());
+        else {
+            try {
+                submissionSubList = homePageResults.getTopSubmissions().subList((pageRequest.getPageNumber()) * pageRequest.getPageSize(), ((pageRequest.getPageNumber() + 1) * pageRequest.getPageSize()));
+            } catch (IndexOutOfBoundsException e) {
+                submissionSubList = homePageResults.getTopSubmissions().subList((pageRequest.getPageNumber()) * pageRequest.getPageSize(), homePageResults.getTopSubmissions().size());
+            }
+        }
+        Page<Submission> page = new PageImpl<>(submissionSubList, pageRequest, homePageResults.getTopSubmissions().size());
         log.info("User: " + user);
         /* This Map maps each post in a page to a boolean indicating whether the current user has already voted on it. */
         Map<Submission, Boolean> upvotedSubmissionsMap = new HashMap<>();
