@@ -1,5 +1,8 @@
 package todayilearned.web;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -7,28 +10,24 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
+import org.springframework.web.context.WebApplicationContext;
 import todayilearned.Submission;
 import todayilearned.TodayILearnedApplication;
 import todayilearned.User;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
-import todayilearned.security.UserRepositoryUserDetailsService;
 import todayilearned.util.HtmlService;
-import todayilearned.web.HomeController;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(HomeController.class)
 @ContextConfiguration(classes = {SecurityConfig.class, TodayILearnedApplication.class})
@@ -36,6 +35,9 @@ public class HomeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private WebApplicationContext context;
 
     @MockBean
     private HtmlService htmlService;
@@ -46,21 +48,48 @@ public class HomeControllerTest {
     @MockBean
     private UserRepository userRepo;
 
+    private WebClient webClient;
 
-    @Test
-    public void getHomePage() throws Exception {
-        User joe = new User("jstrauss24@bfhsla.org", "cuppajoe", "password");
-        final String body = "bodytext";
-        when(htmlService.markdownToHtml(body)).thenReturn("<p>bodytext</p>");
-        List<Submission> submissions = List.of(new Submission(joe, new Date(), "First post", body, htmlService.markdownToHtml(body)), new Submission(joe, new Date(), "Second post", body, htmlService.markdownToHtml(body)));
-        PageRequest pageRequest = PageRequest.of(0, 15);
-        Page<Submission> page = new PageImpl<>(submissions);
-        when(submissionRepo.findAll(pageRequest)).thenReturn(page);
+    /* Domain objects used in each test */
+    private final User user = new User(0L, "jstrauss24@bfhsla.org", "cuppajoe", "password");
+    private final Date date = new Date();
+    ArrayList<Submission> submissions = new ArrayList<>();
 
-        this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("First post")))
-                .andExpect(content().string(containsString("Second post")))
-                .andExpect(content().string(containsString("cuppajoe")));
+
+    @BeforeEach
+    public void setup() {
+        webClient = MockMvcWebClientBuilder
+                .mockMvcSetup(mockMvc)
+                .contextPath("")
+                .build();
+        for (long i = 0; i < 25; i++) {
+            String body = "bodytext";
+            submissions.add(new Submission(i, user, date, i + ". This will most likely be the average length of a title", body, htmlService.markdownToHtml(body)));
+        }
     }
 
+    @Test
+    public void verifyFilledHomePageResults() throws Exception {
+        PageRequest pageRequest = PageRequest.of(0, 15);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), submissions.size());
+        Page<Submission> page = new PageImpl<>(submissions.subList(start, end), pageRequest, submissions.size());
+        when(submissionRepo.findAll(pageRequest)).thenReturn(page);
+
+        HtmlPage homePage = webClient.getPage("http://localhost:8080/");
+        List<String> results = homePage.getByXPath("//div[@class = 'submission']");
+        assertEquals(results.size(), 15);
+    }
+
+    @Test
+    public void verifyIncompleteHomePageResults() throws Exception {
+        PageRequest pageRequest = PageRequest.of(1, 15);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), submissions.size());
+        Page<Submission> page = new PageImpl<>(submissions.subList(start, end), pageRequest, submissions.size());
+        when(submissionRepo.findAll(pageRequest)).thenReturn(page);
+        HtmlPage homePage = webClient.getPage("http://localhost:8080/?p=1");
+        List<String> results = homePage.getByXPath("//div[@class = 'submission']");
+        assertEquals(results.size(), 10);
+    }
 }

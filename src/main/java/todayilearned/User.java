@@ -31,6 +31,7 @@ public class User implements UserDetails {
     /* A list of the id's of submissions the user has voted on */
     private ArrayList<Long> votedSubmissions = new ArrayList<>();
 
+    /* For testing purposes */
     public User(Long id, String email, String username, String password) {
         this.id = id;
         this.email = email;
