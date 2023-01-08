@@ -1,5 +1,7 @@
 package todayilearned;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,13 @@ import todayilearned.data.UserRepository;
 import todayilearned.util.HomePageResults;
 import todayilearned.util.HtmlService;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Configuration
@@ -28,22 +36,29 @@ public class DataLoader {
     HomePageResults homePageResults;
 
     @Bean
-    public CommandLineRunner loadData(SubmissionRepository submissionRepo, UserRepository userRepo) {
+    public CommandLineRunner loadData(SubmissionRepository submissionRepo, UserRepository userRepo) throws IOException {
         return args -> {
+            /* this configuration is necessary for using APIs such as Algolia */
+            java.security.Security.setProperty("networkaddress.cache.ttl" , "60");
+
             User joe = new User("jstrauss24@bfhsla.org", "cuppajoe", passwordEncoder.encode("password"));
             User linus = new User("linus@kernel.org", "linus", passwordEncoder.encode("password"));
-            final String body = "Body: ";
             final Date date = new Date();
+            ObjectMapper mapper = new ObjectMapper();
+            Submission submissionToSave;
             userRepo.save(joe);
             userRepo.save(linus);
             submissionRepo.deleteAll();
-            submissionRepo.save(new Submission(joe, date, "Title: a", body + 'a', htmlService.markdownToHtml(body + 'a')));
-            submissionRepo.save(new Submission(linus, date, "Title: b", body + 'b', htmlService.markdownToHtml(body + 'b')));
-            submissionRepo.save(new Submission(joe, date, "Title: d", body + 'c', htmlService.markdownToHtml(body + 'c')));
-            submissionRepo.save(new Submission(joe, date, "Title: e", body + 'd', htmlService.markdownToHtml(body + 'd')));
-            submissionRepo.save(new Submission(joe, date, "Title: f", body + 'e', htmlService.markdownToHtml(body + 'e')));
-            for (int i = 0; i < 105; i++) {
-                submissionRepo.save(new Submission(joe, date, i + ". This will most likely be the average length of a title", body, htmlService.markdownToHtml(body)));
+
+            BufferedReader reader = Files.newBufferedReader(Paths.get("src/main/resources/static/submission-titles.json"));
+            String[] titles = mapper.readValue(reader.readLine(), String[].class);
+            reader = Files.newBufferedReader(Paths.get("src/main/resources/static/submission-bodies.json"));
+            String[] bodies = mapper.readValue(reader.readLine(), String[].class);
+            for (int i = 0; i < 45; i += 2) {
+                submissionToSave = new Submission(joe, date, i + ": " + titles[i], bodies[i], htmlService.markdownToHtml(bodies[i]));
+                submissionRepo.save(submissionToSave);
+                submissionToSave = new Submission(linus, date, (i+1) + ": " + titles[i+1], bodies[i+1], htmlService.markdownToHtml(bodies[i+1]));
+                submissionRepo.save(submissionToSave);
             }
             homePageResults.refreshSubmissions();
         };
@@ -52,5 +67,14 @@ public class DataLoader {
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Server h2Server() throws SQLException {
         return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
+    }
+
+    @Data
+    private class AlgoliaRecord {
+        private String username;
+        private Date postedOn = new Date();
+        private String title;
+        private String body;
+        private Long Points;
     }
 }
