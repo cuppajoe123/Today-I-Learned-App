@@ -20,7 +20,7 @@ public class SecurityConfig {
         http.headers()
                 .xssProtection()
                 .and()
-                .contentSecurityPolicy("script-src 'self'");
+                .contentSecurityPolicy("script-src 'self' jsdelivr.net *.jsdelivr.net 'unsafe-eval'");
         http.formLogin().loginPage("/login");
         http.logout(logout -> logout.logoutSuccessUrl("/"));
 

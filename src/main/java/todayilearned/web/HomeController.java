@@ -65,4 +65,9 @@ public class HomeController {
         model.addAttribute("upvotedSubmissionsMap", upvotedSubmissionsMap);
         return "home";
     }
+
+    @GetMapping("/search")
+    public String search() {
+        return "search";
+    }
 }
