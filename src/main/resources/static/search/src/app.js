@@ -44,6 +44,13 @@ search.addWidgets([
   instantsearch.widgets.pagination({
     container: '#pagination',
   }),
+  instantsearch.widgets.sortBy({
+    container: '#sort-by',
+    items: [
+      { label: 'Date (desc)', value: 'dev_Submissions_date_desc'},
+      { label: 'Relevance', value: 'dev_Submissions'},
+    ]
+  }),
 ]);
 
 search.start();
