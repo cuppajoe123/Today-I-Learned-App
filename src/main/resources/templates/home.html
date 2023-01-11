@@ -4,27 +4,29 @@
       lang="en">
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Today I Learned</title>
     <link rel="stylesheet" th:href="@{/css/home.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <script th:src="@{/js/vote.js}" defer></script>
   </head>
   <body>
-    <div th:replace="fragments :: site-header"></div>
-    <div class="submissions">
-      <div class="submission" th:each="submission : ${submissions}">
-        <div class="upvote-container">
-          <div class="upvote" th:style="${upvotedSubmissionsMap.get(submission) == false ? '' : 'visibility: hidden;'}" th:data-id="@{vote?submissionId={id}(id=${submission.id})}"></div>
+    <div class="outer-container">
+      <div th:replace="fragments :: site-header"></div>
+      <div class="submissions">
+        <div class="submission" th:each="submission : ${submissions}">
+          <div class="upvote-container">
+            <div class="upvote" th:style="${upvotedSubmissionsMap.get(submission) == false ? '' : 'visibility: hidden;'}" th:data-id="@{vote?submissionId={id}(id=${submission.id})}"></div>
+          </div>
+          <div class="submission-info">
+            <div class="title"><a th:href="@{/submission/{submissionId}/(submissionId=${submission.id})}"><span th:text="${submission.title}"></span></a></div>
+            <div class="author">By <a th:href="@{/user/{username}/(username=${submission.author.username})}"><span th:text="${submission.author.username}"></span></a></div>
+          </div>
         </div>
-        <div class="submission-info">
-          <div class="title"><a th:href="@{/submission/{submissionId}/(submissionId=${submission.id})}"><span th:text="${submission.title}"></span></a></div>
-          <div class="author">By <a th:href="@{/user/{username}/(username=${submission.author.username})}"><span th:text="${submission.author.username}"></span></a></div>
-        </div>
+        <a class="nextPage" th:if="${param.p != null}" th:href="@{/?p={nextPage}(nextPage=${{param.p}} + ${{1}})}">Next Page</a>
+        <a class="nextPage" th:if="${param.p == null}" th:href="@{/?p=1}">Next Page</a>
       </div>
+      
     </div>
-    
-    <a class="nextPage" th:if="${param.p != null}" th:href="@{/?p={nextPage}(nextPage=${{param.p}} + ${{1}})}">Next Page</a>
-    <a class="nextPage" th:if="${param.p == null}" th:href="@{/?p=1}">Next Page</a>
-
   </body>
 </html>

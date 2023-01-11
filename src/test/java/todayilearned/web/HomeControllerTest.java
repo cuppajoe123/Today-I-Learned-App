@@ -68,7 +68,7 @@ public class HomeControllerTest {
                 .mockMvcSetup(mockMvc)
                 .contextPath("")
                 .build();
-        for (long i = 0; i < 25; i++) {
+        for (long i = 0; i < 30; i++) {
             String body = "bodytext";
             submissions.add(new Submission(i, user, date, i + ". This will most likely be the average length of a title", body, htmlService.markdownToHtml(body)));
         }
@@ -82,7 +82,7 @@ public class HomeControllerTest {
 
         HtmlPage homePage = webClient.getPage("http://localhost:8080/");
         List<String> results = homePage.getByXPath("//div[@class = 'submission']");
-        assertEquals(results.size(), 15);
+        assertEquals(results.size(), 20);
     }
 
     @Test

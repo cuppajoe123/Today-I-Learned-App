@@ -2,37 +2,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
   <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Taco Cloud</title>
     <link rel="stylesheet" th:href="@{/css/form.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
   </head>
 
   <body>
-    <div th:replace="fragments :: blank-header"></div>
-    <div class="menu">
-      <h1>Login</h1>
-      <p>New here? Click
-         <a th:href="@{/register}">here</a> to register.</p>
+    <div class="outer-container">
+      <div th:replace="fragments :: blank-header"></div>
+      <div class="inner-container">
+        <div class="menu">
+          <h1>Login</h1>
+          <p>New here? Click
+             <a id="register" th:href="@{/register}">here</a> to register.</p>
 
-      <form method="POST" th:action="@{/login}" id="form">
-        <table>
-          <tbody>
-          <tr>
-            <td>Username: </td>
-            <td>
-              <input type="text" name="username" id="username" /><br/>
-            </td>
-          </tr>
-          <tr>
-            <td>Password: </td>
-            <td>
-              <input type="password" name="password" id="password" /><br/>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-        <input class="submitButton" type="submit" value="Login"/>
-      </form>
+          <form method="POST" th:action="@{/login}" id="form">
+            <table>
+              <tbody>
+              <tr>
+                <td>Username: </td>
+                <td>
+                  <input type="text" name="username" id="username" /><br/>
+                </td>
+              </tr>
+              <tr>
+                <td>Password: </td>
+                <td>
+                  <input type="password" name="password" id="password" /><br/>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <input class="submitButton" type="submit" value="Login"/>
+          </form>
+        </div>
+      </div>
     </div>
   </body>
 </html>

@@ -4,51 +4,48 @@
       lang="en">
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Today I Learned</title>
     <link rel="stylesheet" th:href="@{/css/form.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
   </head>
   <body>
-    <div th:replace="fragments :: blank-header"></div>
-    <div class="menu">
-      <h1>Register</h1>
-
-      <form method="POST" th:action="@{/register}" id="form">
-        <span class="validatinoError" th:if="${#fields.hasErrors('registrationForm')}" th:errors="${registrationForm}">Form error</span>
-        <table>
-          <tbody>
-          <tr>
-            <label for="email"><td>Email: </td></label>
-            <td>
-              <input type="text" name="email" id="email" th:field="${registrationForm.email}"><br/>
-              <span class="validationError" th:if="${#fields.hasErrors('registrationForm.email')}" th:errors="${registrationForm.email}">Email error</span>
-            </td>
-          </tr>
-          <tr>
-            <label for="username"><td>Username: </td></label>
-            <td>
-              <input type="text" name="username" id="username" th:field="${registrationForm.username}"><br/>
-              <span class="validationError" th:if="${#fields.hasErrors('registrationForm.username')}" th:errors="${registrationForm.username}">Username error</span>
-            </td>
-          </tr>
-          <tr>
-            <label for="password"><td>Password: </td></label>
-            <td>
-              <input type="password" name="password" id="password" th:field="${registrationForm.password}"><br/>
-              <span class="validationError" th:if="${#fields.hasErrors('registrationForm.password')}" th:errors="${registrationForm.password}">Password error</span>
-            </td>
-          </tr>
-<!--          <tr>-->
-<!--            <label for="confirm"><td>Confirm password: </td></label>-->
-<!--            <td>-->
-<!--              <input type="password" name="confirm" id="confirm" th:field="${registrationForm.password}"><br/>-->
-<!--              <span class="validationError" th:if="${#fields.hasErrors('registrationForm.password')}" th:errors="${registrationForm.password}">Password error</span>-->
-<!--            </td>-->
-<!--          </tr>-->
-          </tbody>
-        </table>
-        <input class="submitButton" type="submit" value="Register">
-      </form>
+    <div class="outer-container">
+      <div th:replace="fragments :: blank-header"></div>
+      <div class="inner-container">
+        <div class="menu">
+          <h1>Register</h1>
+          <form method="POST" th:action="@{/register}" id="form">
+            <span class="validatinoError" th:if="${#fields.hasErrors('registrationForm')}" th:errors="${registrationForm}">Form error</span>
+            <table>
+              <tbody>
+              <tr>
+                <label for="email"><td>Email: </td></label>
+                <td>
+                  <input type="text" name="email" id="email" th:field="${registrationForm.email}"><br/>
+                  <span class="validationError" th:if="${#fields.hasErrors('registrationForm.email')}" th:errors="${registrationForm.email}">Email error</span>
+                </td>
+              </tr>
+              <tr>
+                <label for="username"><td>Username: </td></label>
+                <td>
+                  <input type="text" name="username" id="username" th:field="${registrationForm.username}"><br/>
+                  <span class="validationError" th:if="${#fields.hasErrors('registrationForm.username')}" th:errors="${registrationForm.username}">Username error</span>
+                </td>
+              </tr>
+              <tr>
+                <label for="password"><td>Password: </td></label>
+                <td>
+                  <input type="password" name="password" id="password" th:field="${registrationForm.password}"><br/>
+                  <span class="validationError" th:if="${#fields.hasErrors('registrationForm.password')}" th:errors="${registrationForm.password}">Password error</span>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <input class="submitButton" type="submit" value="Register">
+            </form>
+        </div>
+      </div>
     </div>
   </body>
 </html>

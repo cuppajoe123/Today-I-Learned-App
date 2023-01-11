@@ -1,11 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,300&display=swap');
 
-body {
+html, body {
     font-family: "Roboto", sans-serif;
-    margin-right: 200px;
-    margin-left: 200px;
+    height: 100%;
 }
 
+.outer-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #ede9dc;
+}
+
+.inner-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+/*
 .header {
     display: flex;
     justify-content: space-between;
@@ -26,6 +41,7 @@ body {
     font-size: 30px;
     font-weight: bold;
 }
+*/
 
 li {
     margin: 10px;
@@ -53,16 +69,47 @@ form, h1 {
     align-self: center;
 }
 
+@media (max-width: 500px) {
+    .menu {
+        margin: 0;
+    }
+
+    textarea{
+        max-width: 90vw;
+    }
+
+    .outer-container {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    html {
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 2560px) {
+    .outer-container {
+        margin-left: 250px;
+        margin-right: 250px;
+    }
+}
+
+
+
 .submitButton {
-    font-size: 14px;
+    font-size: 1rem;
     padding-left: 16px;
     padding-right: 16px;
     padding-top: 8px;
     padding-bottom: 8px;
     margin: 8px;
     border-radius: 4px;
-    border: 0px;
+    border: 1px;
+    border-style: solid;
+    border-color: gray;
     align-self: center;
+    background-color: #ede4c7;
 }
 
 input* {
@@ -72,3 +119,4 @@ input* {
 input, textarea {
     align-self: auto;
 }
+

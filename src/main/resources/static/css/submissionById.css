@@ -1,0 +1,30 @@
+.bodytext {
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+.inner-container {
+    margin-left: 300px;
+    margin-right: 300px;
+}
+
+@media (min-width: 2560px) {
+    .inner-container {
+        margin-left: 800px;
+        margin-right: 800px;
+    }
+}
+
+@media (max-width: 500px) {
+    .inner-container {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+.edit {
+    display: block;
+    margin: 20px;
+    text-decoration-line: underline;
+    font-weight: 700;
+}

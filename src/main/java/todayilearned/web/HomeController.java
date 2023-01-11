@@ -27,7 +27,7 @@ public class HomeController {
 
     HomePageResults homePageResults;
 
-    final int pageSize = 15;
+    final int pageSize = 20;
 
     public HomeController(SubmissionRepository submissionRepo, HomePageResults homePageResults) {
         this.submissionRepo = submissionRepo;

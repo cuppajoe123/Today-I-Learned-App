@@ -2,19 +2,50 @@
 
 body {
     font-family: "Roboto", sans-serif;
-    margin-right: 200px;
-    margin-left: 200px;
-    justify-self: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
 }
 
-a {
-    text-decoration: none;
+.outer-container {
+    margin-left: 50px;
+    margin-right: 50px;
+    background-color: #ede9dc;
 }
 
 .submission {
     padding: 10px;
     display: flex;
 }
+
+@media (max-width: 500px) {
+    .outer-container {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .submission {
+        padding: 5px;
+    }
+
+    html {
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 2560px) {
+    .outer-container {
+        margin-left: 250px;
+        margin-right: 250px;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
 
 .submission-info {
     display: flex;
@@ -34,10 +65,22 @@ a {
     border-bottom: calc((7px + 7px) * 0.866) solid black;
 }
 
-.submission-info .author {
-    font-size: 16px;
+.submission-info .author, .author > a {
+    font-size: 1rem;
+    color: dimgray;
 }
 
 .submission-info .title {
-    font-size: 25px;
+    font-size: 1.3rem;
+}
+
+h1 {
+    padding: 10px;
+}
+
+.nextPage {
+    display: block;
+    margin: 20px;
+    text-decoration-line: underline;
+    font-weight: 700;
 }
