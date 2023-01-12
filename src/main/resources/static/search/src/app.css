@@ -38,6 +38,9 @@
 }
 
 .search-panel__filters {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: max-content;
   flex: 1;
 }
 
@@ -51,7 +54,7 @@
 }
 
 #searchbox {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 #pagination {
