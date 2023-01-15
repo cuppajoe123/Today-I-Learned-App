@@ -16,6 +16,7 @@ import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
 import todayilearned.util.HtmlService;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -49,7 +50,7 @@ public class SubmissionByIdControllerTest {
     public void getSubmissionById() throws Exception {
         final String body = "bodytext";
         when(htmlService.markdownToHtml(body)).thenReturn("<p>bodytext</p>");
-        Optional<Submission> submission = Optional.of(new Submission(1L, user, new Date(), "Interesting title", body, htmlService.markdownToHtml(body)));
+        Optional<Submission> submission = Optional.of(new Submission(1L, user, LocalDateTime.now(), "Interesting title", body, htmlService.markdownToHtml(body)));
 
         when(submissionRepo.findById(submission.get().getId())).thenReturn(submission);
         when(userRepo.findByUsername("cuppajoe")).thenReturn(user);
@@ -63,7 +64,7 @@ public class SubmissionByIdControllerTest {
     public void edit() throws Exception {
         final String body = "bodytext";
         when(htmlService.markdownToHtml(body)).thenReturn("<p>bodytext</p>");
-        Optional<Submission> submission = Optional.of(new Submission(1L, user, new Date(), "Interesting title", body, htmlService.markdownToHtml(body)));
+        Optional<Submission> submission = Optional.of(new Submission(1L, user, LocalDateTime.now(), "Interesting title", body, htmlService.markdownToHtml(body)));
 
         when(submissionRepo.findById(submission.get().getId())).thenReturn(submission);
         when(userRepo.findByUsername("cuppajoe")).thenReturn(user);

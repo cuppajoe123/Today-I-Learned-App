@@ -14,6 +14,7 @@ import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
 import todayilearned.util.HtmlService;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +47,7 @@ public class UserProfileControllerTest {
         User joe = new User("jstrauss24@bfhsla.org", "cuppajoe", "password");
         final String body = "bodytext";
         when(htmlService.markdownToHtml(body)).thenReturn("<p>bodytext</p>");
-        ArrayList<Submission> submissions = new ArrayList<>(List.of(new Submission(joe, new Date(), "First post", body, htmlService.markdownToHtml(body)), new Submission(joe, new Date(), "Second post", body, htmlService.markdownToHtml(body))));
+        ArrayList<Submission> submissions = new ArrayList<>(List.of(new Submission(joe, LocalDateTime.now(), "First post", body, htmlService.markdownToHtml(body)), new Submission(joe, LocalDateTime.now(), "Second post", body, htmlService.markdownToHtml(body))));
         when(submissionRepo.findByAuthor(joe)).thenReturn(submissions);
         when(userRepo.findByUsername("cuppajoe")).thenReturn(joe);
 

@@ -23,6 +23,8 @@ import todayilearned.security.SecurityConfig;
 import todayilearned.util.HomePageResults;
 import todayilearned.util.HtmlService;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,8 +59,7 @@ public class HomeControllerTest {
 
     /* Domain objects used in each test */
     private final User user = new User(0L, "jstrauss24@bfhsla.org", "cuppajoe", "password");
-    private final Date date = new Date();
-    private Calendar calendar;
+    private final LocalDateTime dateTime = LocalDateTime.now();
     ArrayList<Submission> submissions = new ArrayList<>();
 
 
@@ -70,10 +71,8 @@ public class HomeControllerTest {
                 .build();
         for (long i = 0; i < 30; i++) {
             String body = "bodytext";
-            submissions.add(new Submission(i, user, date, i + ". This will most likely be the average length of a title", body, htmlService.markdownToHtml(body)));
+            submissions.add(new Submission(i, user, dateTime, i + ". This will most likely be the average length of a title", body, htmlService.markdownToHtml(body)));
         }
-        calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR)-3);
     }
 
     @Test

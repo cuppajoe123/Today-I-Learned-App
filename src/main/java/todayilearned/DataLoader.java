@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -43,7 +44,7 @@ public class DataLoader {
 
             User joe = new User("jstrauss24@bfhsla.org", "cuppajoe", passwordEncoder.encode("password"));
             User linus = new User("linus@kernel.org", "linus", passwordEncoder.encode("password"));
-            final Date date = new Date();
+            final LocalDateTime dateTime = LocalDateTime.now();
             ObjectMapper mapper = new ObjectMapper();
             Submission submissionToSave;
             userRepo.save(joe);
@@ -55,9 +56,9 @@ public class DataLoader {
             reader = Files.newBufferedReader(Paths.get("src/main/resources/static/submission-bodies.json"));
             String[] bodies = mapper.readValue(reader.readLine(), String[].class);
             for (int i = 0; i < 45; i += 2) {
-                submissionToSave = new Submission(joe, date, i + ": " + titles[i], bodies[i], htmlService.markdownToHtml(bodies[i]));
+                submissionToSave = new Submission(joe, dateTime, i + ": " + titles[i], bodies[i], htmlService.markdownToHtml(bodies[i]));
                 submissionRepo.save(submissionToSave);
-                submissionToSave = new Submission(linus, date, (i+1) + ": " + titles[i+1], bodies[i+1], htmlService.markdownToHtml(bodies[i+1]));
+                submissionToSave = new Submission(linus, dateTime, (i+1) + ": " + titles[i+1], bodies[i+1], htmlService.markdownToHtml(bodies[i+1]));
                 submissionRepo.save(submissionToSave);
             }
             homePageResults.refreshSubmissions();
@@ -67,14 +68,5 @@ public class DataLoader {
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Server h2Server() throws SQLException {
         return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
-    }
-
-    @Data
-    private class AlgoliaRecord {
-        private String username;
-        private Date postedOn = new Date();
-        private String title;
-        private String body;
-        private Long Points;
     }
 }

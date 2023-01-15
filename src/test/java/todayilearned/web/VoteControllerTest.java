@@ -17,6 +17,7 @@ import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
 import todayilearned.util.HtmlService;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
@@ -46,14 +47,14 @@ public class VoteControllerTest {
     private UserRepository userRepo;
 
     /* Domain objects used in each test */
-    private final Date date = new Date();
+    private final LocalDateTime dateTime = LocalDateTime.now();
     ArrayList<Submission> submissions = new ArrayList<>();
 
     @BeforeEach
     public void setup() {
         for (long i = 0; i < 25; i++) {
             String body = "bodytext";
-            submissions.add(new Submission(i, user, date, i + ". This will most likely be the average length of a title", body, htmlService.markdownToHtml(body)));
+            submissions.add(new Submission(i, user, dateTime, i + ". This will most likely be the average length of a title", body, htmlService.markdownToHtml(body)));
         }
     }
 

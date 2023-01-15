@@ -16,11 +16,10 @@ search.addWidgets([
     templates: {
       item: `
 <article>
-  <h1>{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</h1>
-  <p>{{#helpers.highlight}}{ "attribute": "author" }{{/helpers.highlight}}</p>
-  <p>{{#helpers.highlight}}{ "attribute": "postedOn" }{{/helpers.highlight}}</p>
-  <p>{{#helpers.highlight}}{ "attribute": "body" }{{/helpers.highlight}}</p>
-  <p>{{#helpers.highlight}}{ "attribute": "points" }{{/helpers.highlight}}</p>
+  <h1><a href="/submission/{{objectID}}">{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</a></h1>
+  <p>By {{#helpers.highlight}}{ "attribute": "author" }{{/helpers.highlight}}</p>
+  <p>On {{#helpers.highlight}}{ "attribute": "postedOn" }{{/helpers.highlight}}</p>
+  <p>{{#helpers.highlight}}{ "attribute": "points" }{{/helpers.highlight}} points</p>
 </article>
 `,
     },

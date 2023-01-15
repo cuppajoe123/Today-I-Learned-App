@@ -9,6 +9,8 @@
   <link rel="shortcut icon" href="./favicon.png">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7/themes/satellite-min.css">
+  <link rel="stylesheet" th:href="@{css/header.css}">
+  <link rel="stylesheet" th:href="@{css/home.css}">
   <link rel="stylesheet" th:href="@{search/src/search.css}">
   <link rel="stylesheet" th:href="@{search/src/app.css}">
 
@@ -16,29 +18,20 @@
 </head>
 
 <body>
-  <header class="header">
-    <h1 class="header-title">
-      <a href="/">til-search</a>
-    </h1>
-    <p class="header-subtitle">
-      using
-      <a href="https://github.com/algolia/instantsearch.js">
-        InstantSearch.js
-      </a>
-    </p>
-  </header>
+  <div class="outer-container">
+    <div th:replace="fragments :: site-header"></div>
+    <div class="container">
+      <div class="search-panel">
 
-  <div class="container">
-    <div class="search-panel">
-
-      <div class="search-panel__results">
-        <div id="searchbox"></div>
-        <div class="search-panel__filters">
-          <div id="dynamic-widgets"></div>
-          <div id="sort-by"></div>
+        <div class="search-panel__results">
+          <div id="searchbox"></div>
+          <div class="search-panel__filters">
+            <div id="dynamic-widgets"></div>
+            <div id="sort-by"></div>
+          </div>
+          <div id="hits"></div>
+          <div id="pagination"></div>
         </div>
-        <div id="hits"></div>
-        <div id="pagination"></div>
       </div>
     </div>
   </div>

@@ -10,6 +10,7 @@ import todayilearned.Submission;
 import todayilearned.User;
 import todayilearned.util.HtmlService;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,14 +31,14 @@ public class SubmissionRepositoryTest {
     HtmlService htmlService;
 
     User joe;
-    Date today;
+    LocalDateTime today;
     ArrayList<Submission> submissions;
 
     @BeforeEach
     private void beforeAll() {
         joe = new User("jstrauss24@bfhsla.org", "cuppajoe", "password");
         userRepo.save(joe);
-        today = new Date();
+        today = LocalDateTime.now();
         String body = "bodytext";
         when(htmlService.markdownToHtml(body)).thenReturn("<p>bodytext</p>");
         submissions = new ArrayList<>();

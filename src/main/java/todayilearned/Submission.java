@@ -8,11 +8,13 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @Entity
 @Data
-//@AllArgsConstructor
 @NoArgsConstructor
 public class Submission implements Serializable {
 
@@ -23,7 +25,10 @@ public class Submission implements Serializable {
     @ManyToOne
     private User author;
 
-    private Date postedOn = new Date();
+    private LocalDate postedOn = LocalDate.now();
+
+    /* UNIX timestamp for Algolia */
+    private Long timestamp = Instant.now().getEpochSecond();
 
     @NotBlank(message = "A title is required")
     private String title;
@@ -38,19 +43,21 @@ public class Submission implements Serializable {
     private Long points = 0L;
 
     /* Constructor without id */
-    public Submission(User author, Date postedOn, String title, String body, String htmlBody) {
+    public Submission(User author, LocalDateTime postedOn, String title, String body, String htmlBody) {
         this.author = author;
-        this.postedOn = postedOn;
+        this.postedOn = postedOn.toLocalDate();
+        this.timestamp = postedOn.toEpochSecond(ZoneOffset.UTC);
         this.title = title;
         this.body = body;
         this.htmlBody = htmlBody;
     }
 
     /* Constructor with id, for tests */
-    public Submission(Long id, User author, Date postedOn, String title, String body, String htmlBody) {
+    public Submission(Long id, User author, LocalDateTime postedOn, String title, String body, String htmlBody) {
         this.id = id;
         this.author = author;
-        this.postedOn = postedOn;
+        this.postedOn = postedOn.toLocalDate();
+        this.timestamp = postedOn.toEpochSecond(ZoneOffset.UTC);
         this.title = title;
         this.body = body;
         this.htmlBody = htmlBody;

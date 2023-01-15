@@ -18,6 +18,7 @@ import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
 import todayilearned.util.HtmlService;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -87,7 +88,7 @@ public class SubmissionFormControllerTest {
         final long id = 0L;
         final String title = "Interesting Title";
         final String body = "bodytext";
-        Optional<Submission> submission = Optional.of(new Submission(id, user, new Date(), title, body, htmlService.markdownToHtml(body)));
+        Optional<Submission> submission = Optional.of(new Submission(id, user, LocalDateTime.now(), title, body, htmlService.markdownToHtml(body)));
         when(submissionRepo.findById(id)).thenReturn(submission);
         mockMvc.perform(get("/submit/?edit=0"))
                 .andExpect(status().isOk())
@@ -100,7 +101,7 @@ public class SubmissionFormControllerTest {
         final long id = 0L;
         final String title = "Interesting Title";
         final String body = "bodytext";
-        Optional<Submission> submission = Optional.of(new Submission(id, user, new Date(), title, body, htmlService.markdownToHtml(body)));
+        Optional<Submission> submission = Optional.of(new Submission(id, user, LocalDateTime.now(), title, body, htmlService.markdownToHtml(body)));
         when(submissionRepo.findById(id)).thenReturn(submission);
         mockMvc.perform(get("/submit/?edit=0"))
                 .andExpect(status().is3xxRedirection());
@@ -112,7 +113,7 @@ public class SubmissionFormControllerTest {
         final long id = 0L;
         final String title = "Interesting Title";
         final String body = "bodytext";
-        Optional<Submission> submission = Optional.of(new Submission(id, user, new Date(), title, body, htmlService.markdownToHtml(body)));
+        Optional<Submission> submission = Optional.of(new Submission(id, user, LocalDateTime.now(), title, body, htmlService.markdownToHtml(body)));
         when(submissionRepo.findById(id)).thenReturn(submission);
         mockMvc.perform(post("/submit/?edit=0").with(csrf())
                 .content("title=Interesting+Title&body=Interesting+Description")
@@ -126,7 +127,7 @@ public class SubmissionFormControllerTest {
         final long id = 0L;
         final String title = "Interesting Title";
         final String body = "bodytext";
-        Optional<Submission> submission = Optional.of(new Submission(id, user, new Date(), title, body, htmlService.markdownToHtml(body)));
+        Optional<Submission> submission = Optional.of(new Submission(id, user, LocalDateTime.now(), title, body, htmlService.markdownToHtml(body)));
         when(submissionRepo.findById(id)).thenReturn(submission);
         mockMvc.perform(post("/submit/?edit=0").with(csrf())
                 .content("title=Interesting+Title&body=Interesting+Description")
