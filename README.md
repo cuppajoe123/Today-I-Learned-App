@@ -2,9 +2,9 @@
   interesting things they have learned
 
 ## TODO
-- Refactor to use the new Date Time API
-- Fine tune search feature
-- Implement colorscheme
+- Integrate Algolia API, such that submitting and editing a post makes the necessary changes in Algolia indices
+- Mitigate against spam and abuse
+- Add RSS feeds
 
 Test data is loaded from submission-bodies.json and submission-titles.json.
 Currently, the first 45 records are used and uploaded to Algolia for search

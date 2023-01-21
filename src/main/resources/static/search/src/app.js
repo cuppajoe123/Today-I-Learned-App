@@ -17,9 +17,11 @@ search.addWidgets([
       item: `
 <article>
   <h1><a href="/submission/{{objectID}}">{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</a></h1>
-  <p>By {{#helpers.highlight}}{ "attribute": "author" }{{/helpers.highlight}}</p>
-  <p>On {{#helpers.highlight}}{ "attribute": "postedOn" }{{/helpers.highlight}}</p>
-  <p>{{#helpers.highlight}}{ "attribute": "points" }{{/helpers.highlight}} points</p>
+  <span>By <a href="/user/{{#helpers.highlight}}{ "attribute": "author" }{{/helpers.highlight}}">{{#helpers.highlight}}{ "attribute": "author" }{{/helpers.highlight}}</a></span>
+  <span> | </span>
+  <span>On {{#helpers.highlight}}{ "attribute": "postedOn" }{{/helpers.highlight}}</span>
+  <span> | </span>
+  <span>{{#helpers.highlight}}{ "attribute": "points" }{{/helpers.highlight}} points</span>
 </article>
 `,
     },
