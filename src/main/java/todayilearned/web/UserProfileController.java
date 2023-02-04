@@ -1,21 +1,29 @@
 package todayilearned.web;
 
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.feed.synd.SyndFeedImpl;
+import com.sun.syndication.io.FeedException;
+import com.sun.syndication.io.SyndFeedOutput;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import todayilearned.Submission;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/user/{username}")
+@Slf4j
 public class UserProfileController {
 
     private SubmissionRepository submissionRepo;
@@ -29,6 +37,18 @@ public class UserProfileController {
     @GetMapping
     public String userSubmissions() {
         return "userSubmissions";
+    }
+
+    @GetMapping("/rss")
+    public @ResponseBody String getRssFeed(@PathVariable String username) {
+        SyndFeedImpl feed =  userRepo.findByUsername(username).getRssFeed();
+        SyndFeedOutput output = new SyndFeedOutput();
+        try {
+            return output.outputString(feed);
+        } catch (FeedException e) {
+            log.error("RSS Feed Exception: " + e);
+        }
+        return "RSS Feed Error";
     }
 
     @ModelAttribute(name = "allSubmissions")

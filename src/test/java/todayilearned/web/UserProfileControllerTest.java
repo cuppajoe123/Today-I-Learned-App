@@ -1,11 +1,18 @@
 package todayilearned.web;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndEntryImpl;
+import com.sun.syndication.feed.synd.SyndFeedImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
 import todayilearned.Submission;
 import todayilearned.TodayILearnedApplication;
 import todayilearned.User;
@@ -16,15 +23,10 @@ import todayilearned.util.HtmlService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserProfileController.class)
 @ContextConfiguration(classes = {SecurityConfig.class, TodayILearnedApplication.class})
@@ -42,18 +44,56 @@ public class UserProfileControllerTest {
     @MockBean
     private UserRepository userRepo;
 
+    private WebClient webClient;
+
+    /* domain objects used in each test */
+    private final User user = new User("jstrauss24@bfhsla.org", "cuppajoe", "password");
+    private final LocalDateTime dateTime = LocalDateTime.now();
+    private final ArrayList<Submission> submissions = new ArrayList<>();
+    private final long numSubmissions = 30L;
+
+    @BeforeEach
+    public void setup() {
+        webClient = MockMvcWebClientBuilder
+                .mockMvcSetup(mockMvc)
+                .contextPath("")
+                .build();
+
+        List<SyndEntry> entries = new ArrayList<>();
+
+        String body = "bodytext";
+        String htmlBody = htmlService.markdownToHtml(body);
+        for (long i = 0; i < numSubmissions; i++) {
+            submissions.add(new Submission(i, user, dateTime, i + ". foo bar", body, htmlBody));
+
+            SyndEntry entry = new SyndEntryImpl();
+            entry.setTitle(i + ". foo bar");
+            entry.setLink("http://localhost:8080/user/" + user.getUsername());
+            entries.add(entry);
+        }
+        SyndFeedImpl feed = user.getRssFeed();
+        feed.setEntries(entries);
+        user.setRssFeed(feed);
+    }
+
+
     @Test
     public void getUserFeed() throws Exception {
-        User joe = new User("jstrauss24@bfhsla.org", "cuppajoe", "password");
-        final String body = "bodytext";
-        when(htmlService.markdownToHtml(body)).thenReturn("<p>bodytext</p>");
-        ArrayList<Submission> submissions = new ArrayList<>(List.of(new Submission(joe, LocalDateTime.now(), "First post", body, htmlService.markdownToHtml(body)), new Submission(joe, LocalDateTime.now(), "Second post", body, htmlService.markdownToHtml(body))));
-        when(submissionRepo.findByAuthor(joe)).thenReturn(submissions);
-        when(userRepo.findByUsername("cuppajoe")).thenReturn(joe);
+        when(submissionRepo.findByAuthor(user)).thenReturn(submissions);
+        when(userRepo.findByUsername("cuppajoe")).thenReturn(user);
 
-        this.mockMvc.perform(get("/user/" + joe.getUsername())).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("First post")))
-                .andExpect(content().string(containsString("Second post")))
-                .andExpect(content().string(containsString("cuppajoe")));
+        HtmlPage userFeed = webClient.getPage("http://localhost:8080/user/" + user.getUsername());
+        List<String> results = userFeed.getByXPath("//div[@class = 'submission']");
+        assertEquals(numSubmissions, results.size());
+    }
+
+    @Test
+    public void getUserRssFeed() throws Exception {
+        when(submissionRepo.findByAuthor(user)).thenReturn(submissions);
+        when(userRepo.findByUsername("cuppajoe")).thenReturn(user);
+
+        HtmlPage rssFeed = webClient.getPage("http://localhost:8080/user/" + user.getUsername() + "/rss");
+        List<String> results = rssFeed.getByXPath("//item");
+        assertEquals(numSubmissions, results.size());
     }
 }

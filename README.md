@@ -4,6 +4,7 @@
 ## TODO
 - Integrate Algolia API, such that submitting and editing a post makes the necessary changes in Algolia indices
 - Mitigate against spam and abuse
+- Add upvote button to submissionById page
 - Add RSS feeds
 
 Test data is loaded from submission-bodies.json and submission-titles.json.

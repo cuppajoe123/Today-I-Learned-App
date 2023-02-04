@@ -48,7 +48,6 @@ public class HomeController {
             }
         }
         Page<Submission> page = new PageImpl<>(submissionSubList, pageRequest, homePageResults.getTopSubmissions().size());
-        log.info("User: " + user);
         /* This Map maps each post in a page to a boolean indicating whether the current user has already voted on it. */
         Map<Submission, Boolean> upvotedSubmissionsMap = new HashMap<>();
         if (user != null) {

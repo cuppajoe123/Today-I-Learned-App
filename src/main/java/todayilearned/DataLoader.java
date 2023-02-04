@@ -1,6 +1,9 @@
 package todayilearned;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndEntryImpl;
+import com.sun.syndication.feed.synd.SyndFeedImpl;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.h2.tools.Server;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
@@ -15,6 +19,7 @@ import todayilearned.util.HomePageResults;
 import todayilearned.util.HtmlService;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,6 +28,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Configuration
 public class DataLoader {
@@ -51,6 +57,10 @@ public class DataLoader {
             userRepo.save(linus);
             submissionRepo.deleteAll();
 
+            /* RSS setup: only for user joe */
+            List<SyndEntry> joeFeed = new ArrayList<>(), linusFeed = new ArrayList<>();
+            SyndEntry entryToAdd;
+
             BufferedReader reader = Files.newBufferedReader(Paths.get("src/main/resources/static/submission-titles.json"));
             String[] titles = mapper.readValue(reader.readLine(), String[].class);
             reader = Files.newBufferedReader(Paths.get("src/main/resources/static/submission-bodies.json"));
@@ -58,9 +68,19 @@ public class DataLoader {
             for (int i = 0; i < 45; i += 2) {
                 submissionToSave = new Submission(joe, dateTime, i + ": " + titles[i], bodies[i], htmlService.markdownToHtml(bodies[i]));
                 submissionRepo.save(submissionToSave);
+                entryToAdd = new SyndEntryImpl();
+                entryToAdd.setTitle(submissionToSave.getTitle());
+                entryToAdd.setLink("http://localhost:8080/" + submissionToSave.getId());
+                joeFeed.add(entryToAdd);
                 submissionToSave = new Submission(linus, dateTime, (i+1) + ": " + titles[i+1], bodies[i+1], htmlService.markdownToHtml(bodies[i+1]));
                 submissionRepo.save(submissionToSave);
             }
+
+            SyndFeedImpl feed = joe.getRssFeed();
+            feed.setEntries(joeFeed);
+            joe.setRssFeed(feed);
+            userRepo.save(joe);
+
             homePageResults.refreshSubmissions();
         };
     }

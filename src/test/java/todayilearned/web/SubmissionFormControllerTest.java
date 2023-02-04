@@ -49,7 +49,7 @@ public class SubmissionFormControllerTest {
     HtmlService htmlService;
 
     @Test
-    @WithMockUser(roles = "USER")
+    @WithUserDetails("cuppajoe")
     public void processSubmission() throws Exception {
         mockMvc.perform(post("/submit").with(csrf())
             .content("title=Interesting+Tite&body=Interesting+Description")

@@ -7,13 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
-import org.springframework.web.context.WebApplicationContext;
 import todayilearned.Submission;
 import todayilearned.TodayILearnedApplication;
 import todayilearned.User;
@@ -23,11 +19,8 @@ import todayilearned.security.SecurityConfig;
 import todayilearned.util.HomePageResults;
 import todayilearned.util.HtmlService;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,9 +32,6 @@ public class HomeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private WebApplicationContext context;
 
     @MockBean
     private HtmlService htmlService;
@@ -60,8 +50,7 @@ public class HomeControllerTest {
     /* Domain objects used in each test */
     private final User user = new User(0L, "jstrauss24@bfhsla.org", "cuppajoe", "password");
     private final LocalDateTime dateTime = LocalDateTime.now();
-    ArrayList<Submission> submissions = new ArrayList<>();
-
+    private final ArrayList<Submission> submissions = new ArrayList<>();
 
     @BeforeEach
     public void setup() {
@@ -69,9 +58,10 @@ public class HomeControllerTest {
                 .mockMvcSetup(mockMvc)
                 .contextPath("")
                 .build();
+        String body = "bodytext";
+        String htmlBody = htmlService.markdownToHtml(body);
         for (long i = 0; i < 30; i++) {
-            String body = "bodytext";
-            submissions.add(new Submission(i, user, dateTime, i + ". This will most likely be the average length of a title", body, htmlService.markdownToHtml(body)));
+            submissions.add(new Submission(i, user, dateTime, i + ". This will most likely be the average length of a title", body, htmlBody));
         }
     }
 
@@ -81,7 +71,7 @@ public class HomeControllerTest {
 
         HtmlPage homePage = webClient.getPage("http://localhost:8080/");
         List<String> results = homePage.getByXPath("//div[@class = 'submission']");
-        assertEquals(results.size(), 20);
+        assertEquals(20, results.size());
     }
 
     @Test
@@ -90,6 +80,6 @@ public class HomeControllerTest {
 
         HtmlPage homePage = webClient.getPage("http://localhost:8080/?p=1");
         List<String> results = homePage.getByXPath("//div[@class = 'submission']");
-        assertEquals(results.size(), 10);
+        assertEquals(10, results.size());
     }
 }

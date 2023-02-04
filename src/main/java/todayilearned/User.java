@@ -1,6 +1,11 @@
 package todayilearned;
 
-import lombok.*;
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.feed.synd.SyndFeedImpl;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,8 +19,8 @@ import java.util.Collection;
 @Table(name = "\"USER\"")
 @Data
 @NoArgsConstructor(access= AccessLevel.PRIVATE, force = true)
+@Slf4j
 //@AllArgsConstructor
-@RequiredArgsConstructor
 public class User implements UserDetails {
 
     private static final long serialVersionUID = 1L;
@@ -28,6 +33,10 @@ public class User implements UserDetails {
     private final String username;
     private final String password;
 
+    @Lob
+    @Column(columnDefinition = "BLOB")
+    private SyndFeedImpl rssFeed;
+
     /* A list of the id's of submissions the user has voted on */
     private ArrayList<Long> votedSubmissions = new ArrayList<>();
 
@@ -37,7 +46,31 @@ public class User implements UserDetails {
         this.email = email;
         this.username = username;
         this.password = password;
+
+        SyndFeedImpl feed = new SyndFeedImpl();
+        feed.setFeedType("rss_2.0");
+        feed.setTitle(this.username);
+        feed.setLink("http://localhost:8080/user/" + this.username);
+        feed.setDescription("Latest posts from " + this.username);
+        feed.setAuthor(this.username);
+        this.rssFeed = feed;
     }
+
+    public User(String email, String username, String password) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+
+        SyndFeedImpl feed = new SyndFeedImpl();
+        feed.setFeedType("rss_2.0");
+        feed.setTitle(this.username);
+        feed.setLink("http://localhost:8080/user/" + this.username);
+        feed.setDescription("Latest posts from " + this.username);
+        feed.setAuthor(this.username);
+        this.rssFeed = feed;
+    }
+
+
 
     public void addSubmission(Long id) {
         this.votedSubmissions.add(id);
