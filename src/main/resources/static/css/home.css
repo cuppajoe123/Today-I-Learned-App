@@ -80,3 +80,11 @@ a {
     text-decoration-line: underline;
     font-weight: 700;
 }
+
+.heading {
+    margin-left: 20px;
+}
+
+.heading h1 {
+    margin-bottom: 10px;
+}
