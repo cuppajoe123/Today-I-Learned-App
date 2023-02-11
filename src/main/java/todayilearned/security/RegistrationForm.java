@@ -1,9 +1,8 @@
 package todayilearned.security;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import todayilearned.User;
+import todayilearned.model.User;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

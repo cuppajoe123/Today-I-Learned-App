@@ -9,9 +9,9 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import todayilearned.SpringSecurityUserTestConfig;
-import todayilearned.Submission;
+import todayilearned.model.Submission;
 import todayilearned.TodayILearnedApplication;
-import todayilearned.User;
+import todayilearned.model.User;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
@@ -19,7 +19,6 @@ import todayilearned.util.HtmlService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;

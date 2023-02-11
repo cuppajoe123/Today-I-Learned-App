@@ -1,4 +1,4 @@
-package todayilearned;
+package todayilearned.model;
 
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.feed.synd.SyndFeedImpl;

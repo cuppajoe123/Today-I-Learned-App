@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import todayilearned.Submission;
+import todayilearned.model.Submission;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Controller

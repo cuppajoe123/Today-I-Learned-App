@@ -1,9 +1,7 @@
-package todayilearned;
+package todayilearned.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,7 +17,7 @@ import java.time.ZoneOffset;
 public class Submission implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -65,6 +63,10 @@ public class Submission implements Serializable {
 
     public void incrementPoints() {
         this.points++;
+    }
+
+    public AlgoliaSubmission convertToAlgoliaSubmission() {
+        return new AlgoliaSubmission(this.id, this.author.getUsername(), this.postedOn, this.title, this.body, this.points);
     }
 
 }

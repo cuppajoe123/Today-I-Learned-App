@@ -1,13 +1,17 @@
 package todayilearned.web;
 
+import com.algolia.search.DefaultSearchClient;
+import com.algolia.search.SearchClient;
+import com.algolia.search.SearchIndex;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import todayilearned.Submission;
-import todayilearned.User;
+import todayilearned.model.AlgoliaSubmission;
+import todayilearned.model.Submission;
+import todayilearned.model.User;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 
@@ -42,6 +46,13 @@ public class VoteController {
             submissionRepo.save(submission);
             user.addSubmission(submission.getId());
             userRepo.save(user);
+
+            /* Algolia setup */
+            SearchClient client = DefaultSearchClient.create("0UGOGVIXV6", "66431061e984f622a44404c4d6caf169");
+            SearchIndex<AlgoliaSubmission> index = client.initIndex("dev_Submissions", AlgoliaSubmission.class);
+            /* Update Algolia index to reflect edits */
+            index.saveObject(submission.convertToAlgoliaSubmission());
+            
             log.info("Submission " + submission.getId() + " has " + submission.getPoints() + " points");
             return new ResponseEntity<>(HttpStatus.OK);
         }

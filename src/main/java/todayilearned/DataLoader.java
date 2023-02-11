@@ -4,30 +4,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
+import todayilearned.model.Submission;
+import todayilearned.model.User;
 import todayilearned.util.HomePageResults;
 import todayilearned.util.HtmlService;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Configuration
@@ -58,7 +54,7 @@ public class DataLoader {
             submissionRepo.deleteAll();
 
             /* RSS setup: only for user joe */
-            List<SyndEntry> joeFeed = new ArrayList<>(), linusFeed = new ArrayList<>();
+            List<SyndEntry> joeFeed = new ArrayList<>();
             SyndEntry entryToAdd;
 
             BufferedReader reader = Files.newBufferedReader(Paths.get("src/main/resources/static/submission-titles.json"));

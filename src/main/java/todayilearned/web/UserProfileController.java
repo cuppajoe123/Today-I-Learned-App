@@ -1,25 +1,17 @@
 package todayilearned.web;
 
-import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedOutput;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import todayilearned.Submission;
+import todayilearned.model.Submission;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/user/{username}")

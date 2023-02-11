@@ -1,6 +1,8 @@
 package todayilearned.web;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -10,16 +12,18 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import todayilearned.SpringSecurityUserTestConfig;
-import todayilearned.Submission;
+import todayilearned.model.AlgoliaSubmission;
+import todayilearned.model.Submission;
 import todayilearned.TodayILearnedApplication;
-import todayilearned.User;
+import todayilearned.model.User;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
 import todayilearned.util.HtmlService;
 
+import javax.swing.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
@@ -51,8 +55,10 @@ public class SubmissionFormControllerTest {
     @Test
     @WithUserDetails("cuppajoe")
     public void processSubmission() throws Exception {
+        Submission submission = new Submission(0L, new SpringSecurityUserTestConfig().testUser(), LocalDateTime.now(), "Interesting Title", "Interesting Description", "");
+        when(submissionRepo.save(Mockito.any(Submission.class))).thenReturn(submission);
         mockMvc.perform(post("/submit").with(csrf())
-            .content("title=Interesting+Tite&body=Interesting+Description")
+            .content("title=Interesting+Title&body=Interesting+Description")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED))
             .andExpect(status().is3xxRedirection())
             .andExpect(header().stringValues("Location", "/"));
