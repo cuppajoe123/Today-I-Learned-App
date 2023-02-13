@@ -8,6 +8,7 @@
     <header th:fragment="site-header">
       <a class="left-side" th:href="@{/}">Today I Learned</a>
       <ul class="right-side">
+        <li class="search-button-container"><a class="search-button" th:href="@{/search}">Search</a></li>
         <li><a th:href="@{/submit}">Submit</a></li>
         <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
         <li sec:authorize="isAuthenticated()"><a th:href="@{/user/{username}(username=${#authentication.name})}"><span sec:authentication="name"></span></a></li>
@@ -29,6 +30,7 @@
     <header th:fragment="no-submit-header">
       <a class="left-side" th:href="@{/}">Today I Learned</a>
       <ul class="right-side">
+        <li><a class="search-button" th:href="@{/search}">Search</a></li>
         <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
         <li sec:authorize="isAuthenticated()"><a th:href="@{/user/{username}(username=${#authentication.name})}"><span sec:authentication="name"></span></a></li>
         <li sec:authorize="isAuthenticated()">
