@@ -26,6 +26,7 @@ import todayilearned.util.HtmlService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -82,7 +83,7 @@ public class UserProfileControllerTest {
     @Test
     public void getUserFeed() throws Exception {
         when(submissionRepo.findByAuthor(user)).thenReturn(submissions);
-        when(userRepo.findByUsername("cuppajoe")).thenReturn(user);
+        when(userRepo.findByUsername("cuppajoe")).thenReturn(Optional.of(user));
 
         HtmlPage userFeed = webClient.getPage("http://localhost:8080/user/" + user.getUsername());
         List<String> results = userFeed.getByXPath("//div[@class = 'submission']");
@@ -92,7 +93,7 @@ public class UserProfileControllerTest {
     @Test
     public void getUserRssFeed() throws Exception {
         when(submissionRepo.findByAuthor(user)).thenReturn(submissions);
-        when(userRepo.findByUsername("cuppajoe")).thenReturn(user);
+        when(userRepo.findByUsername("cuppajoe")).thenReturn(Optional.of(user));
 
         XmlPage rssFeed = webClient.getPage("http://localhost:8080/user/" + user.getUsername() + "/rss");
         List<String> results = rssFeed.getByXPath("//item");

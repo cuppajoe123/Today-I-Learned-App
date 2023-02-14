@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import todayilearned.model.Submission;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
+import todayilearned.model.User;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user/{username}")
@@ -34,7 +36,15 @@ public class UserProfileController {
 
     @GetMapping(value = "/rss", produces= MediaType.APPLICATION_XML_VALUE)
     public @ResponseBody String getRssFeed(@PathVariable String username) {
-        SyndFeedImpl feed =  userRepo.findByUsername(username).getRssFeed();
+        SyndFeedImpl feed;
+        Optional<User> userOptional = userRepo.findByUsername(username);
+        if (userOptional.isPresent())
+            feed = userOptional.get().getRssFeed();
+        else {
+            log.error("User " + username + " does not exist");
+            return "User " + username + " does not exist";
+        }
+
         SyndFeedOutput output = new SyndFeedOutput();
         try {
             return output.outputString(feed);
@@ -46,7 +56,13 @@ public class UserProfileController {
 
     @ModelAttribute(name = "allSubmissions")
     public ArrayList<Submission> findUserSubmissions(@PathVariable("username") String username, Model model) {
-        return submissionRepo.findByAuthor(userRepo.findByUsername(username));
+        Optional<User> userOptional = userRepo.findByUsername(username);
+        if (userOptional.isPresent())
+            return submissionRepo.findByAuthor(userOptional.get());
+        else {
+            log.error("User " + username + " does not exist");
+            return new ArrayList<>();
+        }
     }
 
     @ModelAttribute(name = "username")

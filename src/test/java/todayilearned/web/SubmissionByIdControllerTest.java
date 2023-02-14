@@ -52,7 +52,7 @@ public class SubmissionByIdControllerTest {
         Optional<Submission> submission = Optional.of(new Submission(1L, user, LocalDateTime.now(), "Interesting title", body, htmlService.markdownToHtml(body)));
 
         when(submissionRepo.findById(submission.get().getId())).thenReturn(submission);
-        when(userRepo.findByUsername("cuppajoe")).thenReturn(user);
+        when(userRepo.findByUsername("cuppajoe")).thenReturn(Optional.of(user));
         this.mockMvc.perform(get("/submission/" + submission.get().getId())).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Interesting title")))
                 .andExpect(content().string(containsString("bodytext")));
@@ -66,7 +66,7 @@ public class SubmissionByIdControllerTest {
         Optional<Submission> submission = Optional.of(new Submission(1L, user, LocalDateTime.now(), "Interesting title", body, htmlService.markdownToHtml(body)));
 
         when(submissionRepo.findById(submission.get().getId())).thenReturn(submission);
-        when(userRepo.findByUsername("cuppajoe")).thenReturn(user);
+        when(userRepo.findByUsername("cuppajoe")).thenReturn(Optional.of(user));
         this.mockMvc.perform(get("/submission/" + submission.get().getId())).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Interesting title")))
                 .andExpect(content().string(containsString("bodytext")))

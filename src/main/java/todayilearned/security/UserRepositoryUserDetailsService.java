@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import todayilearned.model.User;
 import todayilearned.data.UserRepository;
 
+import java.util.Optional;
+
 @Service
 public class UserRepositoryUserDetailsService
         implements UserDetailsService {
@@ -22,9 +24,9 @@ public class UserRepositoryUserDetailsService
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        User user = userRepo.findByUsername(username);
-        if (user != null) {
-            return user;
+        Optional<User> optionalUser = userRepo.findByUsername(username);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
         }
         throw new UsernameNotFoundException(
                 "User '" + username + "' not found");
