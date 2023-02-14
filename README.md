@@ -5,7 +5,6 @@ interesting things they have learned
 ## TODO
 - Mitigate against spam and abuse
 - Add upvote button to submissionById page
-- Make it so that duplicate accounts cannot be created
 
 Test data is loaded from submission-bodies.json and submission-titles.json.
 Currently, the first 45 records are used and uploaded to Algolia for search
