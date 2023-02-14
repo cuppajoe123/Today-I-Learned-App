@@ -76,6 +76,12 @@
 			<artifactId>htmlunit</artifactId>
 			<version>2.68.0</version>
 		</dependency>
+		<!--Required for HTMLUnit-->
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.12.2</version>
+		</dependency>
 		<dependency>
 			<groupId>rome</groupId>
 			<artifactId>rome</artifactId>

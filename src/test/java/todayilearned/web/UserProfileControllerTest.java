@@ -2,6 +2,8 @@ package todayilearned.web;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.XHtmlPage;
+import com.gargoylesoftware.htmlunit.xml.XmlPage;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
@@ -92,7 +94,7 @@ public class UserProfileControllerTest {
         when(submissionRepo.findByAuthor(user)).thenReturn(submissions);
         when(userRepo.findByUsername("cuppajoe")).thenReturn(user);
 
-        HtmlPage rssFeed = webClient.getPage("http://localhost:8080/user/" + user.getUsername() + "/rss");
+        XmlPage rssFeed = webClient.getPage("http://localhost:8080/user/" + user.getUsername() + "/rss");
         List<String> results = rssFeed.getByXPath("//item");
         assertEquals(numSubmissions, results.size());
     }

@@ -4,6 +4,7 @@ import com.sun.syndication.feed.synd.SyndFeedImpl;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedOutput;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class UserProfileController {
         return "userSubmissions";
     }
 
-    @GetMapping("/rss")
+    @GetMapping(value = "/rss", produces= MediaType.APPLICATION_XML_VALUE)
     public @ResponseBody String getRssFeed(@PathVariable String username) {
         SyndFeedImpl feed =  userRepo.findByUsername(username).getRssFeed();
         SyndFeedOutput output = new SyndFeedOutput();
