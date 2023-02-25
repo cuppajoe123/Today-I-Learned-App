@@ -48,7 +48,7 @@ public class HomeControllerTest {
     private WebClient webClient;
 
     /* Domain objects used in each test */
-    private final User user = new User(0L, "jstrauss24@bfhsla.org", "cuppajoe", "password");
+    private final User user = new User(0L, "jstrauss24@bfhsla.org", "cuppajoe", "password", true);
     private final LocalDateTime dateTime = LocalDateTime.now();
     private final ArrayList<Submission> submissions = new ArrayList<>();
 

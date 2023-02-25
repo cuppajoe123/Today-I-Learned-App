@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 import todayilearned.model.Submission;
@@ -46,6 +47,8 @@ public class DataLoader {
 
             User joe = new User("jstrauss24@bfhsla.org", "cuppajoe", passwordEncoder.encode("password"));
             User linus = new User("linus@kernel.org", "linus", passwordEncoder.encode("password"));
+            joe.setEnabled(true);
+            linus.setEnabled(true);
             final LocalDateTime dateTime = LocalDateTime.now();
             ObjectMapper mapper = new ObjectMapper();
             Submission submissionToSave;

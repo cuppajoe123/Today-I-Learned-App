@@ -14,7 +14,7 @@ import java.util.Optional;
 public class UserRepositoryUserDetailsService
         implements UserDetailsService {
 
-    private UserRepository userRepo;
+    private final UserRepository userRepo;
 
     @Autowired
     public UserRepositoryUserDetailsService(UserRepository userRepo) {
@@ -25,7 +25,7 @@ public class UserRepositoryUserDetailsService
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepo.findByUsername(username);
-        if (optionalUser.isPresent()) {
+        if (optionalUser.isPresent() && optionalUser.get().isEnabled()) {
             return optionalUser.get();
         }
         throw new UsernameNotFoundException(

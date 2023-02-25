@@ -17,7 +17,7 @@ public class SpringSecurityUserTestConfig {
 
     @Bean
     public User testUser() {
-        return new User(0L, "jstrauss24@bfhsla.org", "cuppajoe", "password");
+        return new User(0L, "jstrauss24@bfhsla.org", "cuppajoe", "password", true);
     }
 
     @Bean

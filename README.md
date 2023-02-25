@@ -4,6 +4,8 @@ interesting things they have learned
 
 ## TODO
 - Mitigate against spam and abuse
+- Make it so logged in users cannot acces the /register endpoint
+- Add tests for email verification system
 - Add upvote button to submissionById page
 
 Test data is loaded from submission-bodies.json and submission-titles.json.

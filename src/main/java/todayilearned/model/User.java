@@ -29,6 +29,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private boolean enabled = false;
     private final String email;
     private final String username;
     private final String password;
@@ -41,11 +42,12 @@ public class User implements UserDetails {
     private ArrayList<Long> votedSubmissions = new ArrayList<>();
 
     /* For testing purposes */
-    public User(Long id, String email, String username, String password) {
+    public User(Long id, String email, String username, String password, boolean enabled) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
+        this.enabled = enabled;
 
         SyndFeedImpl feed = new SyndFeedImpl();
         feed.setFeedType("rss_2.0");
@@ -98,7 +100,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 
 }

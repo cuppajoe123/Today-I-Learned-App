@@ -2,7 +2,6 @@ package todayilearned.web;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.XHtmlPage;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;

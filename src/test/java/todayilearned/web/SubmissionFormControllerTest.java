@@ -1,7 +1,6 @@
 package todayilearned.web;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,7 +11,6 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import todayilearned.SpringSecurityUserTestConfig;
-import todayilearned.model.AlgoliaSubmission;
 import todayilearned.model.Submission;
 import todayilearned.TodayILearnedApplication;
 import todayilearned.model.User;
@@ -21,8 +19,6 @@ import todayilearned.data.UserRepository;
 import todayilearned.security.SecurityConfig;
 import todayilearned.util.HtmlService;
 
-import javax.swing.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
