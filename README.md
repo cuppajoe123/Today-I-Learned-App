@@ -3,10 +3,17 @@ A website where users can read and share about new and
 interesting things they have learned
 
 ## TODO
-- Mitigate against spam and abuse
+- Mitigate against spam and abuse:
+    - Rate limiting (both Algolia and site itself)
 - Make it so logged in users cannot acces the /register endpoint
 - Add tests for email verification system
-- Add upvote button to submissionById page
+- Sanitize <style> elements out of input
+- Create a development and a production profile:
+    - Development profile should use localhost instead of domain name (should probably be in config file)
+    - Manage secrets in more secure way
+- Add upvote button to submissionById page (after launch)
+- Forgot password (after launch)
+- Add test for input sanitization
 
 Test data is loaded from submission-bodies.json and submission-titles.json.
 Currently, the first 45 records are used and uploaded to Algolia for search

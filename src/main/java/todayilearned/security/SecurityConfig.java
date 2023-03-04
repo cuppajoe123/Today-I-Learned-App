@@ -13,8 +13,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
+        http.authorizeRequests().antMatchers("/register").denyAll();
         http.authorizeRequests().antMatchers("/submit", "/vote").hasRole("USER")
                         .antMatchers("/", "/**").permitAll();
+        http.authorizeRequests().antMatchers("/register").not().hasRole("USER");
         http.csrf().ignoringAntMatchers("/h2-console/**", "/vote");
         http.headers().frameOptions().sameOrigin();
         http.headers()
