@@ -6,6 +6,9 @@ import com.algolia.search.SearchIndex;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -74,10 +77,12 @@ public class SubmissionFormController {
                 throw new ForbiddenRequestException("Submission not found or not authorized");
         }
         submission.setAuthor(author);
-        submission.setHtmlBody(htmlService.markdownToHtml(submission.getBody()));
-        System.out.println(submission);
+        /* HTML sanitization */
+        PolicyFactory policy = new HtmlPolicyBuilder().disallowElements("<style>").toFactory();
+        String safeInput = policy.sanitize(submission.getBody());
+        submission.setHtmlBody(htmlService.markdownToHtml(safeInput));
+        submission.setBody(safeInput);
         submission = submissionRepo.save(submission);
-        System.out.println(submission);
         if (submissionId == null) { // if creating a new submission
             updateRssFeed(submission, author);
 

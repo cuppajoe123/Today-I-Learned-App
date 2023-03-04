@@ -5,9 +5,7 @@ interesting things they have learned
 ## TODO
 - Mitigate against spam and abuse:
     - Rate limiting (both Algolia and site itself)
-- Make it so logged in users cannot acces the /register endpoint
 - Add tests for email verification system
-- Sanitize <style> elements out of input
 - Create a development and a production profile:
     - Development profile should use localhost instead of domain name (should probably be in config file)
     - Manage secrets in more secure way
