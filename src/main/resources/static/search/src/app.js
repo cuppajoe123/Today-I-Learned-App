@@ -1,6 +1,6 @@
 const { algoliasearch, instantsearch } = window;
 
-const searchClient = algoliasearch('0UGOGVIXV6', '43062c102da758e81e499dcd694b5dd2');
+const searchClient = algoliasearch('0UGOGVIXV6', 'f80739fae79386b84e9b8acf5e030747');
 
 const search = instantsearch({
   indexName: 'dev_Submissions',
