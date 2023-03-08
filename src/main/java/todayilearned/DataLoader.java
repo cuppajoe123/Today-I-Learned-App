@@ -20,6 +20,7 @@ import todayilearned.util.HtmlService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -60,9 +61,9 @@ public class DataLoader {
             List<SyndEntry> joeFeed = new ArrayList<>();
             SyndEntry entryToAdd;
 
-            BufferedReader reader = Files.newBufferedReader(Paths.get("src/main/resources/static/submission-titles.json"));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/static/submission-titles.json")));
             String[] titles = mapper.readValue(reader.readLine(), String[].class);
-            reader = Files.newBufferedReader(Paths.get("src/main/resources/static/submission-bodies.json"));
+            reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/static/submission-bodies.json")));
             String[] bodies = mapper.readValue(reader.readLine(), String[].class);
             for (int i = 0; i < 45; i += 2) {
                 submissionToSave = new Submission(joe, dateTime, i + ": " + titles[i], bodies[i], htmlService.markdownToHtml(bodies[i]));
