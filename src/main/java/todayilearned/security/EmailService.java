@@ -1,6 +1,7 @@
 package todayilearned.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -8,7 +9,8 @@ import org.springframework.stereotype.Service;
 
 @Service("EmailService")
 public class EmailService {
-    private static final String NOREPLY_ADDRESS = "cuppajoe43@gmail.com";
+    @Value("${spring.mail.username}")
+    private static String NOREPLY_ADDRESS;
 
     @Autowired
     private JavaMailSender emailSender;

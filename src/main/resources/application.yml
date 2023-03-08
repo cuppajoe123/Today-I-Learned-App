@@ -1,0 +1,25 @@
+spring:
+    datasource:
+        generate-unique-name: false
+        name: todayilearned
+    profiles:
+        active:
+            - dev
+
+---
+spring:
+    profiles: dev
+    mail:
+        debug: true
+        host: smtp.gmail.com
+        password: qkvodywtwkischrg
+        port: 587
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+        transport:
+            protocol: smtp
+        username: cuppajoe43@gmail.com
