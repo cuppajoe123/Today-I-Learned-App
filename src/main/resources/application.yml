@@ -4,7 +4,7 @@ spring:
         name: todayilearned
     profiles:
         active:
-            - dev
+            - prod
 
 ---
 spring:
@@ -23,3 +23,23 @@ spring:
         transport:
             protocol: smtp
         username: cuppajoe43@gmail.com
+
+---
+spring:
+    profiles: prod
+    mail:
+        debug: true
+        test-connection: true
+        host: smtp.porkbun.com
+        username: noreply@today-i-learned.xyz
+        password: "WcK4yT9zJAAg3is"
+        port: 587
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+        transport:
+            protocol: smtp
+
