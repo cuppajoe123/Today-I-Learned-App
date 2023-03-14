@@ -9,6 +9,8 @@ import com.sun.syndication.feed.synd.SyndFeedImpl;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -33,6 +35,9 @@ public class SubmissionFormController {
     private SubmissionRepository submissionRepo;
     private UserRepository userRepo;
     private HtmlService htmlService;
+
+    @Autowired
+    private Environment env;
 
     public SubmissionFormController(SubmissionRepository submissionRepo, UserRepository userRepo, HtmlService htmlService) {
         this.submissionRepo = submissionRepo;
@@ -103,7 +108,7 @@ public class SubmissionFormController {
         /* Create an RSS entry */
         SyndEntry newEntry = new SyndEntryImpl();
         newEntry.setTitle(submission.getTitle());
-        newEntry.setLink("http://localhost:8080/" + submission.getId());
+        newEntry.setLink("http://" + env.getProperty("spring.custom.domain-name") + "/" + submission.getId());
 
         /* Get RSS feed from user, update entries, write it back to DB */
         SyndFeedImpl feedToUpdate = author.getRssFeed();

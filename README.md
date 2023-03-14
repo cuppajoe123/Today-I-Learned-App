@@ -15,11 +15,8 @@ interesting things they have learned
 
 ## Occurrences of development specific strings or secrets not to be used in production
 - Algolia search app.js references development indices
-- EmailService references cuppajoe43@gmail.com. Should use more professional address in production
-- RegistrationListerer references localhost. Should reference domain name in production
 - Must disable H2 Console in production
 - SubmissionFormController: Algolia API key used in source code, as well as Algolia development indices
-- SubmissionFormController: References localhost
 - VoteController: Algolia API key used in source code, as well as Algolia development indices
 - DataLoader should not run in production
 

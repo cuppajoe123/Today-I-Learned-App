@@ -3,6 +3,7 @@ package todayilearned.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import todayilearned.data.TokenRepository;
 import todayilearned.model.User;
@@ -17,7 +18,10 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     private MessageSource messages;
 
     @Autowired
-    EmailService emailService;
+    private Environment env;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private TokenRepository tokenRepo;
@@ -37,6 +41,6 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         String confirmationUrl = event.getAppUrl() + "/registrationConfirm?token=" + token;
         String message = messages.getMessage("message.regSucc", null, event.getLocale());
 
-        emailService.sendSimpleMessage(user.getEmail(), subject, message + "\r\n" + "http://localhost:8080" + confirmationUrl);
+        emailService.sendSimpleMessage(user.getEmail(), subject, message + "\r\nhttp://" + env.getProperty("spring.custom.domain-name") + confirmationUrl);
     }
 }

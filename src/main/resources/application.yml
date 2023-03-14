@@ -24,6 +24,9 @@ spring:
             protocol: smtp
         username: cuppajoe43@gmail.com
 
+    custom:
+        domain-name: "localhost:8080"
+
 ---
 spring:
     profiles: prod
@@ -43,3 +46,5 @@ spring:
         transport:
             protocol: smtp
 
+    custom:
+        domain-name: "today-i-learned.xyz"
