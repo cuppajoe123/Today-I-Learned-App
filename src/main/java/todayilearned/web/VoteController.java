@@ -4,6 +4,8 @@ import com.algolia.search.DefaultSearchClient;
 import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,6 +26,9 @@ public class VoteController {
 
     private SubmissionRepository submissionRepo;
     private UserRepository userRepo;
+
+    @Autowired
+    private Environment env;
 
     public VoteController(SubmissionRepository submissionRepo, UserRepository userRepo) {
         this.submissionRepo = submissionRepo;
@@ -48,8 +53,8 @@ public class VoteController {
             userRepo.save(user);
 
             /* Algolia setup */
-            SearchClient client = DefaultSearchClient.create("0UGOGVIXV6", "66431061e984f622a44404c4d6caf169");
-            SearchIndex<AlgoliaSubmission> index = client.initIndex("dev_Submissions", AlgoliaSubmission.class);
+            SearchClient client = DefaultSearchClient.create(env.getProperty("spring.custom.algolia-application-id"), env.getProperty("spring.custom.algolia-indexing-api-key"));
+            SearchIndex<AlgoliaSubmission> index = client.initIndex(env.getProperty("spring.custom.algolia-index-name"), AlgoliaSubmission.class);
             /* Update Algolia index to reflect edits */
             index.saveObject(submission.convertToAlgoliaSubmission());
             

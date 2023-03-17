@@ -67,8 +67,8 @@ public class SubmissionFormController {
             return "submissionForm";
 
         /* Algolia setup */
-        SearchClient client = DefaultSearchClient.create("0UGOGVIXV6", "66431061e984f622a44404c4d6caf169");
-        SearchIndex<AlgoliaSubmission> index = client.initIndex("dev_Submissions", AlgoliaSubmission.class);
+        SearchClient client = DefaultSearchClient.create(env.getProperty("spring.custom.algolia-application-id"), env.getProperty("spring.custom.algolia-indexing-api-key"));
+        SearchIndex<AlgoliaSubmission> index = client.initIndex(env.getProperty("spring.custom.algolia-index-name"), AlgoliaSubmission.class);
 
         if (submissionId != null) {
             Optional<Submission> submissionToEdit = submissionRepo.findById(submissionId);

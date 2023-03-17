@@ -1,6 +1,8 @@
 package todayilearned.web;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -21,10 +23,12 @@ import java.util.Map;
 @RequestMapping("/")
 @Slf4j
 public class HomeController {
-
     SubmissionRepository submissionRepo;
 
     HomePageResults homePageResults;
+
+    @Autowired
+    Environment env;
 
     final int pageSize = 20;
 
@@ -65,7 +69,8 @@ public class HomeController {
     }
 
     @GetMapping("/search")
-    public String search() {
+    public String search(Model model) {
+        model.addAttribute("profile", env.getActiveProfiles());
         return "search";
     }
 }

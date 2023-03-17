@@ -7,14 +7,12 @@ interesting things they have learned
     - Rate limiting (Algolia done, site wide rate limiting will be done via infrastructure)
 - Add tests for email verification system
 - Create a development and a production profile:
-    - Development profile should use localhost instead of domain name (should probably be in config file)
     - Manage secrets in more secure way
 - Add upvote button to submissionById page (after launch)
 - Forgot password (after launch)
 - Add test for input sanitization
 
 ## Occurrences of development specific strings or secrets not to be used in production
-- Algolia search app.js references development indices
 - Must disable H2 Console in production
 - SubmissionFormController: Algolia API key used in source code, as well as Algolia development indices
 - VoteController: Algolia API key used in source code, as well as Algolia development indices
