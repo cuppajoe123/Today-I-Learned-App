@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.SerializationUtils;
 import org.springframework.web.bind.annotation.*;
 import todayilearned.model.Submission;
 import todayilearned.data.SubmissionRepository;
@@ -39,7 +40,7 @@ public class UserProfileController {
         SyndFeedImpl feed;
         Optional<User> userOptional = userRepo.findByUsername(username);
         if (userOptional.isPresent())
-            feed = userOptional.get().getRssFeed();
+            feed = (SyndFeedImpl) SerializationUtils.deserialize(userOptional.get().getRssFeed());
         else {
             log.error("User " + username + " does not exist");
             return "User " + username + " does not exist";

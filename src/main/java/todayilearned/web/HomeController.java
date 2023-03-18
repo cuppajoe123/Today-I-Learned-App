@@ -39,18 +39,26 @@ public class HomeController {
 
     @GetMapping
     public String homePage(@RequestParam(defaultValue = "0", name = "p") int pageNumber, Model model, @AuthenticationPrincipal User user) {
+        /* Check if database is empty */
+        if (homePageResults.getTopSubmissions().size() == 0)
+            return "home";
+
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
-        List<Submission> submissionSubList;
+        List<Submission> submissionSubList, topSubmissions = homePageResults.getTopSubmissions();
         if (pageNumber == 0)
-            submissionSubList = homePageResults.getTopSubmissions().subList(0, pageRequest.getPageSize());
+            try {
+                submissionSubList = topSubmissions.subList(0, pageRequest.getPageSize());
+            } catch (IndexOutOfBoundsException e) {
+                submissionSubList = topSubmissions.subList(0, topSubmissions.size());
+            }
         else {
             try {
-                submissionSubList = homePageResults.getTopSubmissions().subList((pageRequest.getPageNumber()) * pageRequest.getPageSize(), ((pageRequest.getPageNumber() + 1) * pageRequest.getPageSize()));
+                submissionSubList = topSubmissions.subList((pageRequest.getPageNumber()) * pageRequest.getPageSize(), ((pageRequest.getPageNumber() + 1) * pageRequest.getPageSize()));
             } catch (IndexOutOfBoundsException e) {
-                submissionSubList = homePageResults.getTopSubmissions().subList((pageRequest.getPageNumber()) * pageRequest.getPageSize(), homePageResults.getTopSubmissions().size());
+                submissionSubList = topSubmissions.subList((pageRequest.getPageNumber()) * pageRequest.getPageSize(), topSubmissions.size());
             }
         }
-        Page<Submission> page = new PageImpl<>(submissionSubList, pageRequest, homePageResults.getTopSubmissions().size());
+        Page<Submission> page = new PageImpl<>(submissionSubList, pageRequest, topSubmissions.size());
         /* This Map maps each post in a page to a boolean indicating whether the current user has already voted on it. */
         Map<Submission, Boolean> upvotedSubmissionsMap = new HashMap<>();
         if (user != null) {

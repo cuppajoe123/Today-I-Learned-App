@@ -6,11 +6,15 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.SerializationUtils;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,9 +38,8 @@ public class User implements UserDetails {
     private final String username;
     private final String password;
 
-    @Lob
-    @Column(columnDefinition = "BLOB")
-    private SyndFeedImpl rssFeed;
+    @Column(columnDefinition = "bytea")
+    private byte[] rssFeed;
 
     /* A list of the id's of submissions the user has voted on */
     private ArrayList<Long> votedSubmissions = new ArrayList<>();
@@ -55,7 +58,7 @@ public class User implements UserDetails {
         feed.setLink("http://localhost:8080/user/" + this.username);
         feed.setDescription("Latest posts from " + this.username);
         feed.setAuthor(this.username);
-        this.rssFeed = feed;
+        this.rssFeed = SerializationUtils.serialize(feed);
     }
 
     public User(String email, String username, String password) {
@@ -69,7 +72,7 @@ public class User implements UserDetails {
         feed.setLink("http://localhost:8080/user/" + this.username);
         feed.setDescription("Latest posts from " + this.username);
         feed.setAuthor(this.username);
-        this.rssFeed = feed;
+        this.rssFeed = SerializationUtils.serialize(feed);
     }
 
 

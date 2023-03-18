@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
+import org.springframework.util.SerializationUtils;
 import todayilearned.model.Submission;
 import todayilearned.TodayILearnedApplication;
 import todayilearned.model.User;
@@ -73,9 +74,9 @@ public class UserProfileControllerTest {
             entry.setLink("http://localhost:8080/user/" + user.getUsername());
             entries.add(entry);
         }
-        SyndFeedImpl feed = user.getRssFeed();
+        SyndFeedImpl feed = (SyndFeedImpl) SerializationUtils.deserialize(user.getRssFeed());
         feed.setEntries(entries);
-        user.setRssFeed(feed);
+        user.setRssFeed(SerializationUtils.serialize(feed));
     }
 
 

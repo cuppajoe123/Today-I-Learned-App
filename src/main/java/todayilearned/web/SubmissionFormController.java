@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.SerializationUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import todayilearned.model.AlgoliaSubmission;
@@ -111,11 +112,11 @@ public class SubmissionFormController {
         newEntry.setLink("http://" + env.getProperty("spring.custom.domain-name") + "/" + submission.getId());
 
         /* Get RSS feed from user, update entries, write it back to DB */
-        SyndFeedImpl feedToUpdate = author.getRssFeed();
+        SyndFeedImpl feedToUpdate = (SyndFeedImpl) SerializationUtils.deserialize(author.getRssFeed());
         List<SyndEntry> entries = feedToUpdate.getEntries();
         entries.add(newEntry);
         feedToUpdate.setEntries(entries);
-        author.setRssFeed(feedToUpdate);
+        author.setRssFeed(SerializationUtils.serialize(feedToUpdate));
         userRepo.save(author);
     }
 }

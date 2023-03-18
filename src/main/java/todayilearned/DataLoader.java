@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.SerializationUtils;
 import todayilearned.data.SubmissionRepository;
 import todayilearned.data.UserRepository;
 import todayilearned.model.Submission;
@@ -41,6 +43,7 @@ public class DataLoader {
     HomePageResults homePageResults;
 
     @Bean
+    @Profile("dev")
     public CommandLineRunner loadData(SubmissionRepository submissionRepo, UserRepository userRepo) throws IOException {
         return args -> {
             /* this configuration is necessary for using APIs such as Algolia */
@@ -76,9 +79,9 @@ public class DataLoader {
                 submissionRepo.save(submissionToSave);
             }
 
-            SyndFeedImpl feed = joe.getRssFeed();
+            SyndFeedImpl feed = (SyndFeedImpl) SerializationUtils.deserialize(joe.getRssFeed());
             feed.setEntries(joeFeed);
-            joe.setRssFeed(feed);
+            joe.setRssFeed(SerializationUtils.serialize(feed));
             userRepo.save(joe);
 
             homePageResults.refreshSubmissions();
@@ -86,6 +89,7 @@ public class DataLoader {
     }
 
     @Bean(initMethod = "start", destroyMethod = "stop")
+    @Profile("dev")
     public Server h2Server() throws SQLException {
         return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
     }
