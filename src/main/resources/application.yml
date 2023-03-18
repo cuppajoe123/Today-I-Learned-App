@@ -34,6 +34,9 @@ spring:
 ---
 spring:
     profiles: prod
+    h2:
+        console:
+            enabled: false
     datasource:
         url: jdbc:postgresql://192.168.50.224:5432/todayilearned
         username: postgres

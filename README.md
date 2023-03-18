@@ -13,10 +13,8 @@ interesting things they have learned
 - Add test for input sanitization
 
 ## Occurrences of development specific strings or secrets not to be used in production
-- Must disable H2 Console in production
 - SubmissionFormController: Algolia API key used in source code, as well as Algolia development indices
 - VoteController: Algolia API key used in source code, as well as Algolia development indices
-- DataLoader should not run in production
 
 Test data is loaded from submission-bodies.json and submission-titles.json.
 Currently, the first 45 records are used and uploaded to Algolia for search
