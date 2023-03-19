@@ -3,18 +3,13 @@ A website where users can read and share about new and
 interesting things they have learned
 
 ## TODO
+- Add About page and some interesting posts
 - Mitigate against spam and abuse:
     - Rate limiting (Algolia done, site wide rate limiting will be done via infrastructure)
 - Add tests for email verification system
-- Create a development and a production profile:
-    - Manage secrets in more secure way
 - Add upvote button to submissionById page (after launch)
 - Forgot password (after launch)
 - Add test for input sanitization
-
-## Occurrences of development specific strings or secrets not to be used in production
-- SubmissionFormController: Algolia API key used in source code, as well as Algolia development indices
-- VoteController: Algolia API key used in source code, as well as Algolia development indices
 
 Test data is loaded from submission-bodies.json and submission-titles.json.
 Currently, the first 45 records are used and uploaded to Algolia for search
