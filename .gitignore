@@ -1,3 +1,5 @@
+#custom
+src/main/resources/secrets.yml
 /node_modules
 
 # testing

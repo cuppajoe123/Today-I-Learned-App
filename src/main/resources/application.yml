@@ -7,7 +7,6 @@ spring:
             - dev
     custom:
         algolia-application-id: 0UGOGVIXV6
-        algolia-indexing-api-key: 66431061e984f622a44404c4d6caf169
 
 ---
 spring:
@@ -15,7 +14,6 @@ spring:
     mail:
         debug: true
         host: smtp.gmail.com
-        password: qkvodywtwkischrg
         port: 587
         properties:
             mail:
@@ -53,7 +51,6 @@ spring:
         test-connection: true
         host: smtp.porkbun.com
         username: noreply@today-i-learned.xyz
-        password: "WcK4yT9zJAAg3is"
         port: 587
         properties:
             mail:
@@ -67,3 +64,7 @@ spring:
     custom:
         domain-name: "today-i-learned.xyz"
         algolia-index-name: prod_Submissions
+---
+spring:
+    config:
+        import: "secrets.yml"
