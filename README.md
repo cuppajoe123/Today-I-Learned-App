@@ -4,6 +4,7 @@ interesting things they have learned
 
 ## TODO
 - Add About page and some interesting posts
+- Fix CSS on submit page
 - Mitigate against spam and abuse:
     - Rate limiting (Algolia done, site wide rate limiting will be done via infrastructure)
 - Add tests for email verification system
