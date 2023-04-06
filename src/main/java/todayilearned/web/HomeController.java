@@ -81,4 +81,9 @@ public class HomeController {
         model.addAttribute("profile", env.getActiveProfiles());
         return "search";
     }
+
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    }
 }

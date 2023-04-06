@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Today I Learned</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/submissionById.css}">
+  </head>
+  <body>
+    <div class="outer-container">
+      <div th:replace="fragments :: site-header"></div>
+      <div class="inner-container">
+        <h1>About</h1>
+        <p class="bodytext">Today I Learned XYZ is a website where users can document the interesting
+          things they learn, either from hobbies or jobs. Users can also read and vote on
+          the submissions of other users, based on how interesting and useful the
+          submission is. To stay updated on the findings of the most interesting users,
+          RSS feeds are available.</p>
+        <h2>Why I built this</h2>
+        <p class="bodytext">I built Today I Learned XYZ to learn more about full stack web
+        development, as well as infrastructure and software engineering in
+        general. However, I wanted whatever software I made to be useful, with a
+        more specific purpose than just a generic blogging platform. Before
+        starting the project, I saw this post on Hacker News:
+        <a href="https://simonwillison.net/2022/Nov/6/what-to-blog-about/">What To Blog About</a>.
+        I found particularly interesting the section about Today I Learned style
+        blog posts, in which the author writes about new findings that interest
+        them. The TIL format is mostly for the benefit of the author, as the
+        subject can be something that has already been covered in other blogs.
+        All that matters was that the author learned something new and wants to
+        share about it, for the benefit of others. I thought this would be a
+        refreshing change of pace from social networking sites where users are
+        constantly trying to make the most popular content.</p>
+      </div>
+    </div>
+  </body>
+</html>
