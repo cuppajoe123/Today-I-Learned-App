@@ -90,7 +90,7 @@ header .left-side {
     }
 }
 
-li {
+.links li {
     margin: 10px;
     display: flex;
     align-items: center;
