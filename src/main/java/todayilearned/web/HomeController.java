@@ -73,6 +73,7 @@ public class HomeController {
 
         model.addAttribute("submissions", page);
         model.addAttribute("upvotedSubmissionsMap", upvotedSubmissionsMap);
+        model.addAttribute("profile", env.getActiveProfiles());
         return "home";
     }
 

@@ -4,7 +4,6 @@ interesting things they have learned
 
 ## TODO
 - Add some interesting posts
-- Fix upvote script on mobile
 - Mitigate against spam and abuse:
     - Rate limiting (Algolia done, site wide rate limiting will be done via infrastructure)
 - Add tests for email verification system

@@ -1,6 +1,6 @@
 const voteButtons = document.querySelectorAll(".upvote");
 voteButtons.forEach((button) => {
-  button.addEventListener("click", () => {
+  button.addEventListener("pointerdown", () => {
     fetch("http://localhost:8080/" + button.getAttribute("data-id"), {
       method: "post",
       redirect: "follow",
