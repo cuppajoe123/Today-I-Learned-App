@@ -17,6 +17,14 @@ header .right-side {
     position: relative;
 }
 
+header .right-side .links {
+    display: flex;
+}
+
+header .menu-icon {
+    display: none;
+}
+
 header .right-side .search-button {
     padding-left: 10px;
 }
@@ -45,10 +53,40 @@ header .left-side {
 
 @media (max-width: 600px) {
     header .right-side {
-        margin-right: 12px;
+      position: relative;
+      display: inline-block;
+      align-items: center;
+      margin: 10px;
     }
     header .left-side {
         margin-left: 12px;
+    }
+    header .right-side .links {
+          display: none;
+          position: absolute;
+          right: 0;
+          background-color: #f9f9f9;
+          min-width: 160px;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          z-index: 1;
+    }
+    header .right-side .menu-icon {
+        display: block;
+    }
+
+    header .right-side .search-button::before {
+        left: 50%;
+        top: 20px;
+        height: 1.4rem;
+        width: 1.4rem;
+    }
+
+    header .right-side .search-button-container {
+        margin: 10px;
+    }
+
+    header .right-side .search-button {
+        padding: 0px;
     }
 }
 

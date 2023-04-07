@@ -3,22 +3,26 @@
   xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8">
+
   </head>
   <body>
     <header th:fragment="site-header">
       <a class="left-side" th:href="@{/}">Today I Learned</a>
       <ul class="right-side">
-        <li class="search-button-container"><a class="search-button" th:href="@{/search}">Search</a></li>
-        <li><a th:href="@{/submit}">Submit</a></li>
-        <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
-        <li sec:authorize="isAuthenticated()"><a th:href="@{/user/{username}(username=${#authentication.name})}"><span sec:authentication="name"></span></a></li>
-        <li sec:authorize="isAuthenticated()">
-          <script th:src="@{/js/logout.js}" defer></script>
-          <a id="logout" class="dropdown-toggle" href="#">Sign out</a>
-          <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-            <input hidden type="submit" value="Sign Out" />
-          </form>
-        </li>
+        <div class="material-symbols-outlined menu-icon">menu</div>
+        <div class="links">
+          <li class="search-button-container"><a class="search-button" th:href="@{/search}">Search</a></li>
+          <li><a th:href="@{/submit}">Submit</a></li>
+          <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
+          <li sec:authorize="isAuthenticated()"><a th:href="@{/user/{username}(username=${#authentication.name})}"><span sec:authentication="name"></span></a></li>
+          <li sec:authorize="isAuthenticated()">
+            <script th:src="@{/js/logout.js}" defer></script>
+            <a id="logout" class="dropdown-toggle" href="#">Sign out</a>
+            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+              <input hidden type="submit" value="Sign Out" />
+            </form>
+          </li>
+        </div>
       </ul>
     </header>
     
@@ -30,16 +34,19 @@
     <header th:fragment="no-submit-header">
       <a class="left-side" th:href="@{/}">Today I Learned</a>
       <ul class="right-side">
-        <li><a class="search-button" th:href="@{/search}">Search</a></li>
-        <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
-        <li sec:authorize="isAuthenticated()"><a th:href="@{/user/{username}(username=${#authentication.name})}"><span sec:authentication="name"></span></a></li>
-        <li sec:authorize="isAuthenticated()">
-          <script th:src="@{/js/logout.js}" defer></script>
-          <a id="logout" class="dropdown-toggle" href="#" >Sign out</a>
-          <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-            <input hidden type="submit" value="Sign Out" />
-          </form>
-        </li>
+        <div class="material-symbols-outlined menu-icon">menu</div>
+        <div class="links">
+          <li><a class="search-button" th:href="@{/search}">Search</a></li>
+          <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
+          <li sec:authorize="isAuthenticated()"><a th:href="@{/user/{username}(username=${#authentication.name})}"><span sec:authentication="name"></span></a></li>
+          <li sec:authorize="isAuthenticated()">
+            <script th:src="@{/js/logout.js}" defer></script>
+            <a id="logout" class="dropdown-toggle" href="#" >Sign out</a>
+            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+              <input hidden type="submit" value="Sign Out" />
+            </form>
+          </li>
+        </div>
       </ul>
     </header>
   
