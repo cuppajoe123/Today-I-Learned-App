@@ -1,5 +1,8 @@
-.bodytext {
+.outer-container {
     font-size: 1.2rem;
+}
+
+.bodytext {
     line-height: 1.8;
 }
 
