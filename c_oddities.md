@@ -52,8 +52,6 @@ There is also the default case, which is optional and just a magic label, so mis
 The real accursed creation with switch statements is the inclusion of goto.
 This allows the program to skip to any label, breaking control-flow and inviting strange behavior. It does have real uses (for saving code), but there’s a reason many programming languages no longer include it…
 
-    #include <stdio.h>
-    
     int main()
     {
         int i = 2;
@@ -72,8 +70,10 @@ Many programmers forget to do this, so the namespace gets clogged up. Visibility
 
 ### Function Keywords
 `static` - File-Only
+
 [none] - Any file linking can
 call it.
+
 `extern` -  Just another way to
 specify that it is available to linked files. (Also makes sure to allocate space in compiled source to link to.)
 
@@ -88,7 +88,9 @@ specify that it is available to linked files. (Also makes sure to allocate space
     
 ### Overloading keywords and operators
 Many of C’s keywords and operators have vastly different meanings in different contexts.
+
 `static`: (1) Inside a function, it means a variable’s value persists across calls. (2) When modifying a function, it means the function is local to that file.
+
 `void`: (1) As a return type of a function, it means the function returns no value. (2) In a pointer declaration, it means a generic, untyped pointer. (3) In a function argument list, it means no arguments.
 
     void foo(void) {
@@ -98,6 +100,7 @@ Many of C’s keywords and operators have vastly different meanings in different
     }
     
 \* : (1) multiplication operator (2) When applied to a pointer, indirection (3) In a declaration, pointer.
+
 & : (1) address-of operator (2) bitwise AND operator.
 
 ### A CTF Classic: gets()
