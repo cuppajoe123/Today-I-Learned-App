@@ -25,7 +25,7 @@
     <div class="outer-container">
         <div th:replace="fragments :: site-header"></div>
         <div class="inner-container">
-          <h1><span th:text="${submission.title}"></span></h1>
+          <h1 th:text="${submission.title}"></h1>
           <h2>By <span th:text="${submission.author.username}"></span></h2>
           <div class="bodytext" th:utext="${submission.htmlBody}"></div>
           <a class="edit" th:if="${#authentication.name == submission.author.username}" th:href="@{/submit/?edit={id}(id = ${submission.id})}">Edit</a>
