@@ -3,7 +3,6 @@ A website where users can read and share about new and
 interesting things they have learned
 
 ## TODO
-- Make submissionById more responsive
 - Mitigate against spam and abuse:
     - Rate limiting (Algolia done, site wide rate limiting will be done via infrastructure)
 - Add tests for email verification system
