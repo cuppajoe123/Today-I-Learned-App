@@ -6,6 +6,11 @@ import com.algolia.search.SearchIndex;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
+import org.jsoup.select.Elements;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
@@ -84,8 +89,26 @@ public class SubmissionFormController {
         }
         submission.setAuthor(author);
         /* HTML sanitization */
-        PolicyFactory policy = new HtmlPolicyBuilder().disallowElements("<style>").toFactory();
+//        Document doc = Jsoup.parse(submission.getBody());
+//        Elements codeBlocks = doc.select("pre");
+//        for (Element tag : codeBlocks) {
+//            if (tag.html().matches("(.*)<[a-z](.*)")) {
+//                String innerHTML = tag.html().replaceAll("<(?=[a-z])", "&lt;");
+//                tag.html(innerHTML);
+//            }
+//        }
+
+        /* Factor out into separate function */
+        /* Try removing <pre> tags */
+
+
+        PolicyFactory policy = new HtmlPolicyBuilder()
+                .allowCommonBlockElements()
+                .allowCommonInlineFormattingElements()
+                .allowStyling()
+                .toFactory();
         String safeInput = policy.sanitize(submission.getBody());
+        safeInput = Parser.unescapeEntities(safeInput, true);
         submission.setHtmlBody(htmlService.markdownToHtml(safeInput));
         submission.setBody(safeInput);
         submission = submissionRepo.save(submission);
