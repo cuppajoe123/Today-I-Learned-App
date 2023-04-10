@@ -4,7 +4,7 @@ spring:
         name: todayilearned
     profiles:
         active:
-            - dev
+            - prod
     custom:
         algolia-application-id: 0UGOGVIXV6
 

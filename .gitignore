@@ -2,7 +2,7 @@
 src/main/resources/secrets.yml
 /node_modules
 
-docker/pg_data
+docker/pgdata
 
 # testing
 /coverage
