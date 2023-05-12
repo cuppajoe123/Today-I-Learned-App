@@ -31,3 +31,7 @@
     text-decoration-line: underline;
     font-weight: 700;
 }
+
+pre {
+    white-space: pre-wrap;
+}
