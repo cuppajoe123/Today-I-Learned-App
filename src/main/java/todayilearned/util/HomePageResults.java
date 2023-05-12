@@ -25,7 +25,7 @@ public class HomePageResults {
         return this.topSubmissions;
     }
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 10000)
     public void refreshSubmissions() {
         LocalDate date = LocalDate.now().minusDays(3L);
         log.info("Fetching results from after " + date);
