@@ -29,3 +29,10 @@ Algolia currently keeps track of the following attributes for each submission:
   Date+timestamp the submission was added, but the postedOn string uploaded to
   Algolia must have the timestamp information truncated, so it can be used on
   the front end. 
+
+## Setting up the production server
+- After spinning up the database container, the database must be manually created using psql: `CREATE DATABASE todayilearned;`
+- Follow this site if SSL certs ever need to be regenerated: https://medium.com/@agusnavce/nginx-server-with-ssl-certificates-with-lets-encrypt-in-docker-670caefc2e31
+- If the letsencrypt-nginx-container ever has to be used to get the SSL certs, make sure the .well-known directory already exists
+- docker/production.conf is the production nginx configuration
+- docker/nginx.conf is for setting up SSL certs for the first time
