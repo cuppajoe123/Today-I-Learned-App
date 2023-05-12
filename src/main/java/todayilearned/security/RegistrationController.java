@@ -64,7 +64,7 @@ public class RegistrationController {
         }
 
 
-        String safeInput = form.getUsername().replaceAll("[^a-zA-Z0-9]","");
+        String safeInput = form.getUsername().replaceAll("[^a-zA-Z0-9\\-_]","");
         if (!safeInput.equals(form.getUsername())) {
             errors.reject("username", "Username contains illegal characters");
             return "registrationForm";
