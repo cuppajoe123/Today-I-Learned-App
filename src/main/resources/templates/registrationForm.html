@@ -15,7 +15,7 @@
       <div class="inner-container">
         <div class="menu">
           <h1>Register</h1>
-          <em class="reminder">Check spam after registering to verify your account</em>
+          <em class="reminder">Check spam after registering to verify your account. No special characters allowed in username.</em>
           <form method="POST" th:action="@{/register}" id="form">
             <span class="validatinoError" th:if="${#fields.hasErrors('registrationForm')}" th:errors="${registrationForm}">Form error</span>
             <table>

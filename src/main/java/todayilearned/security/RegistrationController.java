@@ -1,5 +1,7 @@
 package todayilearned.security;
 
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.PolicyFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -58,6 +60,13 @@ public class RegistrationController {
         userOptional = userRepo.findByUsername(form.getUsername());
         if (userOptional.isPresent()) {
             errors.reject("username", "Username already in use");
+            return "registrationForm";
+        }
+
+
+        String safeInput = form.getUsername().replaceAll("[^a-zA-Z0-9]","");
+        if (!safeInput.equals(form.getUsername())) {
+            errors.reject("username", "Username contains illegal characters");
             return "registrationForm";
         }
 
