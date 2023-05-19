@@ -1,8 +1,9 @@
 # Today I Learned 
 A website where users can read and share about new and
-interesting things they have learned
+interesting things they have learned. For information on self-hosting, see HACKING.md.
 
 ## TODO
+- Make repo public
 - Allow editing of titles
 - Mitigate against spam and abuse:
     - Rate limiting (Algolia done, site wide rate limiting will be done via infrastructure)
@@ -11,9 +12,10 @@ interesting things they have learned
 - Forgot password (after launch)
 - Add test for input sanitization
 
+## Algolia Info
 Test data is loaded from submission-bodies.json and submission-titles.json.
 Currently, the first 45 records are used and uploaded to Algolia for search
-functionality. If the amount of test data is changed, the Algolia index will
+functionality in the dev environment. If the amount of test data is changed, the Algolia index will
 also need to be changed.
 
 Algolia currently keeps track of the following attributes for each submission:
