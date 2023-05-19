@@ -7,6 +7,8 @@ spring:
             - dev
     custom:
         algolia-application-id: 0UGOGVIXV6
+        # Change this number back to three when site gets more popular. This way, posts won't disappear from the front page when there is low traffic.
+        home-page-results-duration: 90
 
 ---
 spring:

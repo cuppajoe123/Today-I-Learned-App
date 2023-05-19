@@ -2,6 +2,7 @@ package todayilearned.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import todayilearned.model.Submission;
@@ -21,13 +22,16 @@ public class HomePageResults {
     @Autowired
     private SubmissionRepository submissionRepo;
 
+    @Autowired
+    private Environment env;
+
     public ArrayList<Submission> getTopSubmissions() {
         return this.topSubmissions;
     }
 
     @Scheduled(fixedRate = 10000)
     public void refreshSubmissions() {
-        LocalDate date = LocalDate.now().minusDays(3L);
+        LocalDate date = LocalDate.now().minusDays(Long.parseLong(env.getProperty("spring.custom.home-page-results-duration")));
         log.info("Fetching results from after " + date);
         ArrayList<Submission> results = submissionRepo.findByPostedOnAfter(date);
         /* Submissions are in order if the first one has a higher score than the next */
