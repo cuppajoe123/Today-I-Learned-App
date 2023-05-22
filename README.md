@@ -3,10 +3,6 @@ A website where users can read and share about new and
 interesting things they have learned. For information on self-hosting, see HACKING.md.
 
 ## TODO
-- Make repo public
-- Allow editing of titles
-- Mitigate against spam and abuse:
-    - Rate limiting (Algolia done, site wide rate limiting will be done via infrastructure)
 - Add tests for email verification system
 - Add upvote button to submissionById page (after launch)
 - Forgot password (after launch)
